@@ -18,7 +18,7 @@ contract List is Ownable {
     }
 
 
-    function Register(address _addr, string memory _town) public returns (address, string memory) {
+    function register(address _addr, string memory _town) public returns (address, string memory) {
         
         Production memory production;
         production.addr = _addr;
