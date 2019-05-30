@@ -4,13 +4,18 @@ import "openzeppelin-solidity-2.1.1/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity-2.1.1/contracts/ownership/Ownable.sol";
 
 
+
+
 contract List is Ownable {
 
     struct Production {
         address addr;
         string town;
     }
-    Production[] public productions; 
+    Production[] public productions;
+
+    event Register(address addr, string town);
+
 
 
     constructor () public {
@@ -25,6 +30,9 @@ contract List is Ownable {
         production.town = _town;
         
         productions.push(production);
+
+        emit Register(_addr, _town);
+
 
         return (_addr, _town);
     }
