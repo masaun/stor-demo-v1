@@ -269,6 +269,27 @@ class App extends Component {
     );
   }
 
+  renderList() {
+    const {} = this.state;
+
+    return (
+      <div className={styles.wrapper}>
+      {!this.state.web3 && this.renderLoader()}
+      {this.state.web3 && !this.state.counter && (
+        this.renderDeployCheck('counter')
+      )}
+      {this.state.web3 && this.state.project && (
+        <div className={styles.contracts}>
+          <h1>List Contract is good to Go!</h1>
+          <div className={styles.widgets}>
+            <p>Test</p>
+          </div>
+        </div>
+      )}
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className={styles.App}>
@@ -276,7 +297,8 @@ class App extends Component {
           {this.state.route === '' && this.renderInstructions()}
           {this.state.route === 'counter' && this.renderBody()}
           {this.state.route === 'evm' && this.renderEVM()}
-          {this.state.route === 'faq' && this.renderFAQ()}
+          {/* {this.state.route === 'faq' && this.renderFAQ()} */}
+          {this.state.route === 'list' && this.renderList()}
         <Footer />
       </div>
     );
