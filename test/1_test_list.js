@@ -12,5 +12,11 @@ contract('List', (accounts) => {
 
         // Debug
         console.log('=== response of register function ===', response);  // Result: 
+
+
+        const event = response.events.Register.returnValues.addr;
+
+        console.log('=== Check event value of addr of Register function ===', event);  // Result: OK
+
     })
 })
