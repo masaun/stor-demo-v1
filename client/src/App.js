@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import getWeb3, { getGanacheWeb3 } from "./utils/getWeb3";
+import getWeb3, { getGanacheWeb3, Web3 } from "./utils/getWeb3";
 import Header from "./components/Header/index.js";
 import Footer from "./components/Footer/index.js";
 import Hero from "./components/Hero/index.js";
@@ -7,20 +7,34 @@ import Web3Info from "./components/Web3Info/index.js";
 import CounterUI from "./components/Counter/index.js";
 import Wallet from "./components/Wallet/index.js";
 import Instructions from "./components/Instructions/index.js";
-import { Loader } from 'rimble-ui';
+import { Loader, Button, Card, Input, Heading } from 'rimble-ui';
 
 import { zeppelinSolidityHotLoaderOptions } from '../config/webpack';
 
 import styles from './App.module.scss';
 
 class App extends Component {
-  state = {
-    storageValue: 0,
-    web3: null,
-    accounts: null,
-    contract: null,
-    route: window.location.pathname.replace("/","")
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      /////// Default state
+      storageValue: 0,
+      web3: null,
+      accounts: null,
+      contract: null,
+      route: window.location.pathname.replace("/",""),
+
+    };
+  }
+
+  // state = {
+  //   storageValue: 0,
+  //   web3: null,
+  //   accounts: null,
+  //   contract: null,
+  //   route: window.location.pathname.replace("/","")
+  // };
 
   getGanacheAddresses = async () => {
     if (!this.ganacheProvider) {
@@ -36,9 +50,11 @@ class App extends Component {
     const hotLoaderDisabled = zeppelinSolidityHotLoaderOptions.disabled;
     let Counter = {};
     let Wallet = {};
+    let List = {};
     try {
-      Counter = require("../../contracts/Counter.sol");
-      Wallet = require("../../contracts/Wallet.sol");
+      Counter = require("../../build/contracts/Counter.json");
+      Wallet = require("../../build/contracts/Wallet.json");
+      List = require("../../build/contracts/List.json");  // Load ABI of contract of Propose
     } catch (e) {
       console.log(e);
     }
@@ -63,6 +79,7 @@ class App extends Component {
         balance = web3.utils.fromWei(balance, 'ether');
         let instance = null;
         let instanceWallet = null;
+        let instanceList = null;
         let deployedNetwork = null;
         if (Counter.networks) {
           deployedNetwork = Counter.networks[networkId.toString()];
@@ -82,14 +99,24 @@ class App extends Component {
             );
           }
         }
-        if (instance || instanceWallet) {
+        if (List.networks) {
+          deployedNetwork = List.networks[networkId.toString()];
+          if (deployedNetwork) {
+            instanceList = new web3.eth.Contract(
+              List.abi,
+              deployedNetwork && deployedNetwork.address,
+            );
+            console.log('=== instanceList ===', instanceList);
+          }
+        }
+        if (instance || instanceWallet || instanceList) {
           // Set web3, accounts, and contract to the state, and then proceed with an
           // example of interacting with the contract's methods.
           this.setState({ web3, ganacheAccounts, accounts, balance, networkId, networkType, hotLoaderDisabled,
-            isMetaMask, contract: instance, wallet: instanceWallet }, () => {
-              this.refreshValues(instance, instanceWallet);
+            isMetaMask, contract: instance, wallet: instanceWallet, list: instanceList }, () => {
+              this.refreshValues(instance, instanceWallet, instanceList);
               setInterval(() => {
-                this.refreshValues(instance, instanceWallet);
+                this.refreshValues(instance, instanceWallet, instanceList);
               }, 5000);
             });
         }
@@ -112,12 +139,15 @@ class App extends Component {
     }
   }
 
-  refreshValues = (instance, instanceWallet) => {
+  refreshValues = (instance, instanceWallet, instanceList) => {
     if (instance) {
       this.getCount();
     }
     if (instanceWallet) {
       this.updateTokenOwner();
+    }
+    if (instanceList) {
+      console.log('refreshValues of instanceList');
     }
   }
 
@@ -275,10 +305,10 @@ class App extends Component {
     return (
       <div className={styles.wrapper}>
       {!this.state.web3 && this.renderLoader()}
-      {this.state.web3 && !this.state.counter && (
-        this.renderDeployCheck('counter')
+      {this.state.web3 && !this.state.list && (
+        this.renderDeployCheck('list')
       )}
-      {this.state.web3 && this.state.project && (
+      {this.state.web3 && this.state.list && (
         <div className={styles.contracts}>
           <h1>List Contract is good to Go!</h1>
           <div className={styles.widgets}>
