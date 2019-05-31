@@ -51,10 +51,12 @@ class App extends Component {
     let Counter = {};
     let Wallet = {};
     let List = {};
+    let Asset = {};  // To contract of Asset
     try {
       Counter = require("../../build/contracts/Counter.json");
       Wallet = require("../../build/contracts/Wallet.json");
-      List = require("../../build/contracts/List.json");  // Load ABI of contract of Propose
+      List = require("../../build/contracts/List.json");    // Load ABI of contract of List
+      Asset = require("../../build/contracts/Asset.json");  // Load ABI of contract of Asset
     } catch (e) {
       console.log(e);
     }
@@ -80,6 +82,7 @@ class App extends Component {
         let instance = null;
         let instanceWallet = null;
         let instanceList = null;
+        let instanceAsset = null;  // To contract of Asset
         let deployedNetwork = null;
         if (Counter.networks) {
           deployedNetwork = Counter.networks[networkId.toString()];
@@ -109,14 +112,24 @@ class App extends Component {
             console.log('=== instanceList ===', instanceList);
           }
         }
-        if (instance || instanceWallet || instanceList) {
+        if (Asset.networks) {
+          deployedNetwork = Asset.networks[networkId.toString()];
+          if (deployedNetwork) {
+            instanceAsset = new web3.eth.Contract(
+              Asset.abi,
+              deployedNetwork && deployedNetwork.address,
+            );
+            console.log('=== instanceAsset ===', instanceAsset);
+          }
+        }
+        if (instance || instanceWallet || instanceList || instanceAsset) {
           // Set web3, accounts, and contract to the state, and then proceed with an
           // example of interacting with the contract's methods.
           this.setState({ web3, ganacheAccounts, accounts, balance, networkId, networkType, hotLoaderDisabled,
-            isMetaMask, contract: instance, wallet: instanceWallet, list: instanceList }, () => {
-              this.refreshValues(instance, instanceWallet, instanceList);
+            isMetaMask, contract: instance, wallet: instanceWallet, list: instanceList, asset: instanceAsset }, () => {
+              this.refreshValues(instance, instanceWallet, instanceList, instanceAsset);
               setInterval(() => {
-                this.refreshValues(instance, instanceWallet, instanceList);
+                this.refreshValues(instance, instanceWallet, instanceList, instanceAsset);
               }, 5000);
             });
         }
@@ -139,7 +152,7 @@ class App extends Component {
     }
   }
 
-  refreshValues = (instance, instanceWallet, instanceList) => {
+  refreshValues = (instance, instanceWallet, instanceList, instanceAsset) => {
     if (instance) {
       this.getCount();
     }
@@ -148,6 +161,9 @@ class App extends Component {
     }
     if (instanceList) {
       console.log('refreshValues of instanceList');
+    }
+    if (instanceAsset) {
+      console.log('refreshValues of instanceAsset');
     }
   }
 
@@ -320,6 +336,27 @@ class App extends Component {
     );
   }
 
+  renderAsset() {
+    const {} = this.state;
+
+    return (
+      <div className={styles.wrapper}>
+      {!this.state.web3 && this.renderLoader()}
+      {this.state.web3 && !this.state.asset && (
+        this.renderDeployCheck('asset')
+      )}
+      {this.state.web3 && this.state.asset && (
+        <div className={styles.contracts}>
+          <h1>Asset Contract is good to Go!</h1>
+          <div className={styles.widgets}>
+            <p>Asset Test</p>
+          </div>
+        </div>
+      )}
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className={styles.App}>
@@ -329,6 +366,7 @@ class App extends Component {
           {this.state.route === 'evm' && this.renderEVM()}
           {/* {this.state.route === 'faq' && this.renderFAQ()} */}
           {this.state.route === 'list' && this.renderList()}
+          {this.state.route === 'asset' && this.renderAsset()}
         <Footer />
       </div>
     );
