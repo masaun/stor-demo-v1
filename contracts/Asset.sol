@@ -54,7 +54,9 @@ contract Asset is Ownable {
         return (production_id, production_addr, production_town);
     }
     
-    
-    
+
+    function productionList() public view returns(uint) {
+        return productions.length - 1;
+    }
 
 }

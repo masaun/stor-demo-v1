@@ -22,8 +22,6 @@ contract('Asset', (accounts) => {
 
 
     it('Execute productionDetail function', async () => {
-        const accounts = await web3.eth.getAccounts();
-
         const _id = 0;
 
         const contract = await new web3.eth.Contract(Asset.abi, Asset.address);
@@ -35,5 +33,17 @@ contract('Asset', (accounts) => {
         // Both of OK
         console.log('=== Check return value of productionDetail function ===', response.id, response.addr, response.town);    // Result: OK
         console.log('=== Check return value of productionDetail function ===', response['0'], response['1'], response['2']);  // Result: OK
+    })
+
+
+    it('Execute productionList function', async () => {
+        const contract = await new web3.eth.Contract(Asset.abi, Asset.address);
+        const response = await contract.methods.productionList().call();
+
+        // Debug
+        console.log('=== response of productionList function ===', response);  // Result: 
+
+        // Debug of return value
+        console.log('=== Check return value of productionList function ===', response['0']);
     })
 })
