@@ -41,7 +41,7 @@ contract Asset is Ownable {
     }
 
 
-    function productionDetail(uint _id) public view returns(uint, address, string memory) {
+    function productionDetail(uint _id) public view returns(uint id, address addr, string memory town) {
         uint production_id;
         address production_addr;
         string memory production_town;

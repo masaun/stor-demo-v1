@@ -32,6 +32,8 @@ contract('Asset', (accounts) => {
         // Debug
         console.log('=== response of productionDetail function ===', response);  // Result: 
 
+        // Both of OK
+        console.log('=== Check return value of productionDetail function ===', response.id, response.addr, response.town);    // Result: OK
         console.log('=== Check return value of productionDetail function ===', response['0'], response['1'], response['2']);  // Result: OK
     })
 })
