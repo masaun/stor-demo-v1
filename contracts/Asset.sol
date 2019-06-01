@@ -8,14 +8,16 @@ import "openzeppelin-solidity-2.1.1/contracts/ownership/Ownable.sol";
 
 contract Asset is Ownable {
 
+    uint public _productionId; 
+
     struct Production {
+        uint id;
         address addr;
         string town;
     }
     Production[] public productions;
 
-    event Register(address addr, string town);
-
+    event Register(uint id, address addr, string town);
 
 
     constructor () public {
@@ -23,19 +25,23 @@ contract Asset is Ownable {
     }
 
 
-    function register(address _addr, string memory _town) public returns (address, string memory) {
+    function register(address _addr, string memory _town) public returns (uint, address, string memory) {
         
         Production memory production;
+        production.id = _productionId;
         production.addr = _addr;
         production.town = _town;
         
         productions.push(production);
 
-        emit Register(_addr, _town);
+        emit Register(production.id, _addr, _town);
+        _productionId++;
 
-
-        return (_addr, _town);
+        return (production.id, _addr, _town);
     }
+
+
+    
     
 
 }
