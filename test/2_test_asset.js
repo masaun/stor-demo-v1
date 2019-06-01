@@ -8,7 +8,7 @@ contract('Asset', (accounts) => {
         const _town = "City of Madrid";
 
         const contract = await new web3.eth.Contract(Asset.abi, Asset.address);
-        const response = await contract.methods.register(_addr, _town).send({ from: accounts[0] });
+        const response = await contract.methods.register(_addr, _town).send({ from: accounts[0], gas: 3000000 });
 
         // Debug
         console.log('=== response of register function ===', response);  // Result: 
