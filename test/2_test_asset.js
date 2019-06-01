@@ -19,4 +19,19 @@ contract('Asset', (accounts) => {
         console.log('=== Check event value of addr of Register function ===', event);  // Result: OK
 
     })
+
+
+    it('Execute productionDetail function', async () => {
+        const accounts = await web3.eth.getAccounts();
+
+        const _id = 0;
+
+        const contract = await new web3.eth.Contract(Asset.abi, Asset.address);
+        const response = await contract.methods.productionDetail(_id).call();
+
+        // Debug
+        console.log('=== response of productionDetail function ===', response);  // Result: 
+
+        console.log('=== Check return value of productionDetail function ===', response['0'], response['1'], response['2']);  // Result: OK
+    })
 })
