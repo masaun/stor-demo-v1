@@ -7,7 +7,7 @@ import Web3Info from "./components/Web3Info/index.js";
 import CounterUI from "./components/Counter/index.js";
 import Wallet from "./components/Wallet/index.js";
 import Instructions from "./components/Instructions/index.js";
-import { Loader, Button, Card, Input, Heading } from 'rimble-ui';
+import { Loader, Button, Card, Input, Heading, Table } from 'rimble-ui';
 
 import { zeppelinSolidityHotLoaderOptions } from '../config/webpack';
 
@@ -351,7 +351,72 @@ class App extends Component {
           <div className={styles.widgets}>
             <p>Asset Test</p>
           </div>
+
+          <Table>
+            <thead>
+              <tr>
+                <th>
+                  Transaction hash
+                </th>
+                <th>
+                  Value
+                </th>
+                <th>
+                  Recipient
+                </th>
+                <th>
+                  Time
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  0xeb...cc0
+                </td>
+                <td>
+                  0.10 ETH
+                </td>
+                <td>
+                  0x4fe...581
+                </td>
+                <td>
+                  March 28 2019 08:47:17 AM +UTC
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  0xsb...230
+                </td>
+                <td>
+                  0.11 ETH
+                </td>
+                <td>
+                  0x4gj...1e1
+                </td>
+                <td>
+                  March 28 2019 08:52:17 AM +UTC
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  0xed...c40
+                </td>
+                <td>
+                  0.12 ETH
+                </td>
+                <td>
+                  0x3fd...781
+                </td>
+                <td>
+                  March 28 2019 08:55:17 AM +UTC
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+
         </div>
+
       )}
       </div>
     );
