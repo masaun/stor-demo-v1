@@ -17,7 +17,7 @@ contract Asset is Ownable {
     }
     Production[] public productions;
 
-    event Register(uint id, address addr, string town);
+    event ProductionRegister(uint id, address addr, string town);
 
 
     constructor () public {
@@ -25,7 +25,7 @@ contract Asset is Ownable {
     }
 
 
-    function register(address _addr, string memory _town) public returns (uint, address, string memory) {
+    function productionRegister(address _addr, string memory _town) public returns (uint, address, string memory) {
         
         Production memory production;
         production.id = _productionId;
@@ -34,7 +34,7 @@ contract Asset is Ownable {
         
         productions.push(production);
 
-        emit Register(production.id, _addr, _town);
+        emit ProductionRegister(production.id, _addr, _town);
         _productionId++;
 
         return (production.id, _addr, _town);
