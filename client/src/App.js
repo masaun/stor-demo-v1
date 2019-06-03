@@ -25,7 +25,23 @@ class App extends Component {
       contract: null,
       route: window.location.pathname.replace("/",""),
 
+      /////// Value below is for productionCreate function
+      production_address: '',
+      production_town: '',
+      valueOfProductionAddress: '',
+      valueOfProductionTown: '',
     };
+
+     //  <input type="text" value={this.state.valueOfProductionAddress} onChange={this.handleInputProductionAddress} />
+
+     //  <p>Town of Production</p>
+     //  <input type="text" value={this.state.valueOfProductionTown} onChange={this.handleInputProductionTown} />
+
+     //  <Button onClick={this.sendProductionCreate}>SEND（ProductionCreate）</Button>
+
+    this.handleInputProductionAddress = this.handleInputProductionAddress.bind(this);
+    this.handleInputProductionTown = this.handleInputProductionTown.bind(this);
+    this.sendProductionCreate = this.sendProductionCreate.bind(this);
   }
 
   // state = {
@@ -36,6 +52,34 @@ class App extends Component {
   //   route: window.location.pathname.replace("/","")
   // };
 
+
+  handleInputProductionAddress({ target: { value } }) {
+    this.setState({ valueOfProductionAddress: value });
+  }
+
+  handleInputProductionTown({ target: { value } }) {
+    this.setState({ valueOfProductionTown: value });
+  }
+
+  sendProductionCreate = async () => {
+    const { accounts, asset, production_address, production_town, valueOfProductionAddress, valueOfProductionTown } = this.state;
+
+    const response = await asset.methods.productionRegister(valueOfProductionAddress, valueOfProductionTown).send({ from: accounts[0] })
+
+    console.log('=== response of productionRegister function ===', response);  // Debug
+
+    this.setState({
+      production_address: valueOfProductionAddress,
+      production_town: valueOfProductionTown,
+      valueOfProductionAddress: '',
+      valueOfProductionTown: '',
+    });
+  }
+
+
+  //////////////////////////////////// 
+  ///// Ganache
+  ////////////////////////////////////
   getGanacheAddresses = async () => {
     if (!this.ganacheProvider) {
       this.ganacheProvider = getGanacheWeb3();
@@ -351,6 +395,56 @@ class App extends Component {
           <div className={styles.widgets}>
             <p>Asset Test</p>
           </div>
+
+          <div className={styles.widgets}>
+            <Card width={'420px'} bg="primary">
+              <p>Address of Production</p>
+              <input type="text" value={this.state.valueOfProductionAddress} onChange={this.handleInputProductionAddress} />
+
+              <p>Town of Production</p>
+              <input type="text" value={this.state.valueOfProductionTown} onChange={this.handleInputProductionTown} />
+
+              <Button onClick={this.sendProductionCreate}>SEND（ProductionCreate）</Button>
+            </Card>
+          </div>
+
+          <Table>
+            <thead>
+              <tr>
+                <th>
+                  Transaction hash
+                </th>
+                <th>
+                  Value
+                </th>
+                <th>
+                  Recipient
+                </th>
+                <th>
+                  Time
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  0xeb...cc0
+                </td>
+                <td>
+                  0.10 ETH
+                </td>
+                <td>
+                  0x4fe...581
+                </td>
+                <td>
+                  March 28 2019 08:47:17 AM +UTC
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+
+          <br/>
+          <br/>
 
           <Table>
             <thead>
