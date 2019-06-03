@@ -32,13 +32,6 @@ class App extends Component {
       valueOfProductionTown: '',
     };
 
-     //  <input type="text" value={this.state.valueOfProductionAddress} onChange={this.handleInputProductionAddress} />
-
-     //  <p>Town of Production</p>
-     //  <input type="text" value={this.state.valueOfProductionTown} onChange={this.handleInputProductionTown} />
-
-     //  <Button onClick={this.sendProductionCreate}>SEND（ProductionCreate）</Button>
-
     this.handleInputProductionAddress = this.handleInputProductionAddress.bind(this);
     this.handleInputProductionTown = this.handleInputProductionTown.bind(this);
     this.sendProductionCreate = this.sendProductionCreate.bind(this);
@@ -381,7 +374,7 @@ class App extends Component {
   }
 
   renderAsset() {
-    const {} = this.state;
+    const { production_address, production_town } = this.state;
 
     return (
       <div className={styles.wrapper}>
@@ -412,32 +405,32 @@ class App extends Component {
             <thead>
               <tr>
                 <th>
-                  Transaction hash
+                  Production Address
                 </th>
                 <th>
-                  Value
+                  Production Town
                 </th>
                 <th>
-                  Recipient
+                  -
                 </th>
                 <th>
-                  Time
+                  -
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>
-                  0xeb...cc0
+                  { production_address }
                 </td>
                 <td>
-                  0.10 ETH
+                  { production_town }
                 </td>
                 <td>
-                  0x4fe...581
+                  -
                 </td>
                 <td>
-                  March 28 2019 08:47:17 AM +UTC
+                  -
                 </td>
               </tr>
             </tbody>
