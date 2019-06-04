@@ -31,6 +31,8 @@ class App extends Component {
       valueOfProductionAddress: '',
       valueOfProductionTown: '',
 
+      productions: [],
+
       /////// Sample for displaying list
       values: [
         { ethAmount: '0.10 ETH' },
@@ -74,6 +76,17 @@ class App extends Component {
       production_town: valueOfProductionTown,
       valueOfProductionAddress: '',
       valueOfProductionTown: '',
+    });
+
+
+    ///// Add Production List
+    this.state.productions.push({
+      production_address: valueOfProductionAddress,
+      production_town: valueOfProductionTown,
+    });
+
+    this.setState({
+      productions: this.state.productions
     });
   }
 
@@ -528,8 +541,31 @@ class App extends Component {
             </tbody>
           </Table>
 
-        </div>
+          <br/>
+          <br/>
 
+          <Table>
+            <thead>
+              <tr>
+                <th>
+                  Address of Production
+                </th>
+                <th>
+                  Town of Production
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.productions.map( (productions, i) => {
+                return <tr key={i}>
+                         <td>{ productions.production_address }</td>
+                         <td>{ productions.production_town }</td>
+                       </tr>
+              })}
+            </tbody>
+          </Table>
+
+        </div>
       )}
       </div>
     );
