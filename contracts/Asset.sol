@@ -14,8 +14,16 @@ contract Asset is Ownable {
         uint id;
         address addr;
         string town;
+        mapping (string => Coordinate) coordinates;
     }
     Production[] public productions;
+
+
+    struct Coordinate {
+        uint latitude;
+        uint longitude;
+    }
+    
 
     event ProductionRegister(uint indexed id, address indexed addr, string town);
 

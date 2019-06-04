@@ -78,7 +78,6 @@ class App extends Component {
       valueOfProductionTown: '',
     });
 
-
     ///// Add Production List
     this.state.productions.push({
       production_address: valueOfProductionAddress,
