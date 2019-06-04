@@ -17,7 +17,7 @@ contract Asset is Ownable {
     }
     Production[] public productions;
 
-    event ProductionRegister(uint id, address addr, string town);
+    event ProductionRegister(uint indexed id, address indexed addr, string town);
 
 
     constructor () public {
