@@ -523,7 +523,7 @@ class App extends Component {
             </thead>
             <tbody>
               {this.state.values.map( (values, i) => {
-                return <tr key={i}>{ values.ethAmount }</tr>
+                return <tr key={i}><td>{ values.ethAmount }</td></tr>
               })}
             </tbody>
           </Table>
