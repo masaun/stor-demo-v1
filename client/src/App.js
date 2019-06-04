@@ -30,6 +30,14 @@ class App extends Component {
       production_town: '',
       valueOfProductionAddress: '',
       valueOfProductionTown: '',
+
+      /////// Sample for displaying list
+      values: [
+        { ethAmount: '0.10 ETH' },
+        { ethAmount: '0.11 ETH' },
+        { ethAmount: '0.12 ETH' },
+        { ethAmount: '0.13 ETH' },
+      ]
     };
 
     this.handleInputProductionAddress = this.handleInputProductionAddress.bind(this);
@@ -499,6 +507,24 @@ class App extends Component {
                   March 28 2019 08:55:17 AM +UTC
                 </td>
               </tr>
+            </tbody>
+          </Table>
+
+          <br/>
+          <br/>
+
+          <Table>
+            <thead>
+              <tr>
+                <th>
+                  Value List
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.values.map( (values, i) => {
+                return <tr key={i}>{ values.ethAmount }</tr>
+              })}
             </tbody>
           </Table>
 
