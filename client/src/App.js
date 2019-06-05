@@ -404,11 +404,6 @@ class App extends Component {
       )}
       {this.state.web3 && this.state.asset && (
         <div className={styles.contracts}>
-          <h1>Asset Contract is good to Go!</h1>
-          <div className={styles.widgets}>
-            <p>Asset Test</p>
-          </div>
-
           <div className={styles.widgets}>
             <Card width={'420px'} bg="primary">
               <p>Address of Production</p>
@@ -419,54 +414,53 @@ class App extends Component {
 
               <Button onClick={this.sendProductionCreate}>SEND（ProductionCreate）</Button>
             </Card>
+
+            <Table>
+              <thead>
+                <tr>
+                  <th>
+                    Address of Production
+                  </th>
+                  <th>
+                    Town of Production
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.productions.map( (productions, i) => {
+                  return <tr key={i}>
+                           <td>{ productions.production_address }</td>
+                           <td>{ productions.production_town }</td>
+                         </tr>
+                })}
+              </tbody>
+            </Table>
+
+            <br/>
+            <br/>
+
+            <Table>
+              <thead>
+                <tr>
+                  <th>
+                    TRANSACTION HASH
+                  </th>                
+                  <th>
+                    VALUE
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.values.map( (values, i) => {
+                  return <tr key={i}>
+                           <td>{ values.transactionHash }</td>
+                           <td>{ values.ethAmount }</td>
+                         </tr>
+                })}
+              </tbody>
+            </Table>
+
           </div>
-
-          <Table>
-            <thead>
-              <tr>
-                <th>
-                  Address of Production
-                </th>
-                <th>
-                  Town of Production
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.productions.map( (productions, i) => {
-                return <tr key={i}>
-                         <td>{ productions.production_address }</td>
-                         <td>{ productions.production_town }</td>
-                       </tr>
-              })}
-            </tbody>
-          </Table>
-
-          <br/>
-          <br/>
-
-          <Table>
-            <thead>
-              <tr>
-                <th>
-                  TRANSACTION HASH
-                </th>                
-                <th>
-                  VALUE
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.values.map( (values, i) => {
-                return <tr key={i}>
-                         <td>{ values.transactionHash }</td>
-                         <td>{ values.ethAmount }</td>
-                       </tr>
-              })}
-            </tbody>
-          </Table>
-
-
         </div>
       )}
       </div>
