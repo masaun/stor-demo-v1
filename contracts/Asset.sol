@@ -23,7 +23,25 @@ contract Asset is Ownable {
         uint latitude;
         uint longitude;
     }
-    
+
+
+
+    /**
+    * [In progress] modifier of onlyProductionOwner
+    */
+    address public productionOwner == msg.sender;  // [To do]：Change assigning value next time from msg.sender to another value
+
+    modifier onlyProductionOwner() { 
+        require (isProductionOwner()); 
+        _; 
+    }
+
+    function isProductionOwner() public view returns (bool) {
+        return msg.sender == productionOwner;
+    }
+
+
+
 
     event ProductionRegister(uint indexed id, address indexed addr, string town);
 

@@ -460,6 +460,30 @@ class App extends Component {
               </tbody>
             </Table>
 
+            <br/>
+            <br/>
+
+            <Table>
+              <thead>
+                <tr>
+                  <th>
+                    Location
+                  </th>                
+                  <th>
+                    Time-stamp of generation
+                  </th>
+                  <th>
+                    Generation source type
+                  </th>
+                  <th>
+                    CO2 Emissions tracking
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </Table>
+
           </div>
         </div>
       )}
