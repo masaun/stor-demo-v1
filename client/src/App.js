@@ -33,12 +33,12 @@ class App extends Component {
 
       productions: [],
 
-      /////// Sample for displaying list
+      /////// Sample for displaying list（reference from rimble-ui document）
       values: [
-        { ethAmount: '0.10 ETH' },
-        { ethAmount: '0.11 ETH' },
-        { ethAmount: '0.12 ETH' },
-        { ethAmount: '0.13 ETH' },
+        { transactionHash: '0xeb...cc0', ethAmount: '0.10 ETH' },
+        { transactionHash: '0xsb...230', ethAmount: '0.11 ETH' },
+        { transactionHash: '0xed...c40', ethAmount: '0.12 ETH' },
+        { transactionHash: '0xge...a78', ethAmount: '0.13 ETH' },
       ]
     };
 
@@ -449,13 +449,19 @@ class App extends Component {
             <thead>
               <tr>
                 <th>
-                  Value List
+                  TRANSACTION HASH
+                </th>                
+                <th>
+                  VALUE
                 </th>
               </tr>
             </thead>
             <tbody>
               {this.state.values.map( (values, i) => {
-                return <tr key={i}><td>{ values.ethAmount }</td></tr>
+                return <tr key={i}>
+                         <td>{ values.transactionHash }</td>
+                         <td>{ values.ethAmount }</td>
+                       </tr>
               })}
             </tbody>
           </Table>
