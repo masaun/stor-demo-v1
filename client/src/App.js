@@ -425,100 +425,20 @@ class App extends Component {
             <thead>
               <tr>
                 <th>
-                  Production Address
+                  Address of Production
                 </th>
                 <th>
-                  Production Town
-                </th>
-                <th>
-                  -
-                </th>
-                <th>
-                  -
+                  Town of Production
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  { production_address }
-                </td>
-                <td>
-                  { production_town }
-                </td>
-                <td>
-                  -
-                </td>
-                <td>
-                  -
-                </td>
-              </tr>
-            </tbody>
-          </Table>
-
-          <br/>
-          <br/>
-
-          <Table>
-            <thead>
-              <tr>
-                <th>
-                  Transaction hash
-                </th>
-                <th>
-                  Value
-                </th>
-                <th>
-                  Recipient
-                </th>
-                <th>
-                  Time
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  0xeb...cc0
-                </td>
-                <td>
-                  0.10 ETH
-                </td>
-                <td>
-                  0x4fe...581
-                </td>
-                <td>
-                  March 28 2019 08:47:17 AM +UTC
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  0xsb...230
-                </td>
-                <td>
-                  0.11 ETH
-                </td>
-                <td>
-                  0x4gj...1e1
-                </td>
-                <td>
-                  March 28 2019 08:52:17 AM +UTC
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  0xed...c40
-                </td>
-                <td>
-                  0.12 ETH
-                </td>
-                <td>
-                  0x3fd...781
-                </td>
-                <td>
-                  March 28 2019 08:55:17 AM +UTC
-                </td>
-              </tr>
+              {this.state.productions.map( (productions, i) => {
+                return <tr key={i}>
+                         <td>{ productions.production_address }</td>
+                         <td>{ productions.production_town }</td>
+                       </tr>
+              })}
             </tbody>
           </Table>
 
@@ -540,29 +460,6 @@ class App extends Component {
             </tbody>
           </Table>
 
-          <br/>
-          <br/>
-
-          <Table>
-            <thead>
-              <tr>
-                <th>
-                  Address of Production
-                </th>
-                <th>
-                  Town of Production
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.productions.map( (productions, i) => {
-                return <tr key={i}>
-                         <td>{ productions.production_address }</td>
-                         <td>{ productions.production_town }</td>
-                       </tr>
-              })}
-            </tbody>
-          </Table>
 
         </div>
       )}

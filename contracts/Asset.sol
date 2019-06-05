@@ -14,7 +14,7 @@ contract Asset is Ownable {
         uint id;
         address addr;
         string town;
-        mapping (string => Coordinate) coordinates;
+        mapping (string => Coordinate) coordinates;  // Using town name as key 
     }
     Production[] public productions;
 
