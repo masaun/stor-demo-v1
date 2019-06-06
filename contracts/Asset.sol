@@ -34,6 +34,8 @@ contract Asset is Ownable, ProductionOwnable {
 
 
     event ProductionRegister(uint indexed id, address indexed addr, string town);
+    event ProductionRegisterIpfsHash(string indexed returnedIpfsHash);
+    
 
 
     constructor () public {
@@ -93,8 +95,11 @@ contract Asset is Ownable, ProductionOwnable {
 
 
     function productionRegisterIpfsHash(uint _id, string memory _returnedIpfsHash) public returns (string memory) {
+    //function productionRegisterIpfsHash(uint _id, string memory _returnedIpfsHash) public returns (string memory) {
         IpfsHash memory ipfs = productions[_id].ipfsHashes[_id];
         ipfs.ipfsHash = _returnedIpfsHash;
+
+        emit ProductionRegisterIpfsHash(_returnedIpfsHash);
 
         return _returnedIpfsHash;
     }

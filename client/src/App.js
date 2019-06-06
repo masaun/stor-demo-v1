@@ -122,6 +122,7 @@ class App extends Component {
     await ipfs.add(this.state.buffer, (err, ipfsHash) => {
       console.log('=== err ===');
       console.log('=== ipfsHash ===', ipfsHash);
+      console.log('=== ipfsHash[0].hash ===', ipfsHash[0].hash);
 
       this.setState({ ipfsHash: ipfsHash[0].hash });
 
@@ -132,11 +133,11 @@ class App extends Component {
       //   this.setState({ transactionHash });
       // });
 
-      asset.methods.productionRegisterIpfsHash(productionId, this.state.ipfsHash).send({ 
+      asset.methods.productionRegisterIpfsHash(productionId, ipfsHash[0].hash).send({ 
         from: accounts[0]
       }).then((instance) => {
         console.log('=== instance ===', instance)
-        //console.log('=== return value of _returnedIpfsHash ===', instance.events.productionRegisterIpfsHash.returnValues._returnedIpfsHash);
+        console.log('=== event value of returnedIpfsHash ===', instance.events.ProductionRegisterIpfsHash.returnValues.returnedIpfsHash);
       });
     })
   }
