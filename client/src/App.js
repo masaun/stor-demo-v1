@@ -86,6 +86,8 @@ class App extends Component {
 
     console.log('=== response of productionRegister function ===', response);  // Debug
 
+    const productionId = response.events.ProductionRegister.returnValues.id;
+
     this.setState({
       production_address: valueOfProductionAddress,
       production_town: valueOfProductionTown,
@@ -121,18 +123,20 @@ class App extends Component {
       console.log('=== err ===');
       console.log('=== ipfsHash ===', ipfsHash);
 
-      //setState by setting ipfsHash to ipfsHash[0].hash 
       this.setState({ ipfsHash: ipfsHash[0].hash });
 
-      // call Ethereum contract method "sendHash" and .send IPFS hash to etheruem contract 
-      //return the transaction hash from the ethereum contract
-      //see, this https://web3js.readthedocs.io/en/1.0/web3-eth-contract.html#methods-mymethod-send
-      
-      asset.methods.sendHash(this.state.ipfsHash).send({
-        from: accounts[0] 
-      }, (error, transactionHash) => {
-        console.log(transactionHash);
-        this.setState({ transactionHash });
+      // asset.methods.sendHash(this.state.ipfsHash).send({
+      //   from: accounts[0] 
+      // }, (error, transactionHash) => {
+      //   console.log(transactionHash);
+      //   this.setState({ transactionHash });
+      // });
+
+      asset.methods.productionRegisterIpfsHash(productionId, this.state.ipfsHash).send({ 
+        from: accounts[0]
+      }).then((instance) => {
+        console.log('=== instance ===', instance)
+        //console.log('=== return value of _returnedIpfsHash ===', instance.events.productionRegisterIpfsHash.returnValues._returnedIpfsHash);
       });
     })
   }
