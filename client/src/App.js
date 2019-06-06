@@ -79,7 +79,7 @@ class App extends Component {
     this.setState({ valueOfProductionTown: value });
   }
 
-  sendProductionCreate = async () => {
+  sendProductionCreate = async (event) => {
     const { accounts, asset, production_address, production_town, valueOfProductionAddress, valueOfProductionTown } = this.state;
 
     const response = await asset.methods.productionRegister(valueOfProductionAddress, valueOfProductionTown).send({ from: accounts[0] })
@@ -102,6 +102,39 @@ class App extends Component {
     this.setState({
       productions: this.state.productions
     });
+
+
+    ////////////////////
+    /// Integrate IPFS into sendProductionCreate
+    ////////////////////
+    event.preventDefault();
+   
+    console.log('Sending from Metamask account: ' + accounts[0]);
+
+    //obtain contract address from storehash.js
+    const ethAddress = await asset.options.address;
+    this.setState({ ethAddress });
+
+    //save document to IPFS,return its hash#, and set hash# to state
+    //https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#add 
+    await ipfs.add(this.state.buffer, (err, ipfsHash) => {
+      console.log('=== err ===');
+      console.log('=== ipfsHash ===', ipfsHash);
+
+      //setState by setting ipfsHash to ipfsHash[0].hash 
+      this.setState({ ipfsHash: ipfsHash[0].hash });
+
+      // call Ethereum contract method "sendHash" and .send IPFS hash to etheruem contract 
+      //return the transaction hash from the ethereum contract
+      //see, this https://web3js.readthedocs.io/en/1.0/web3-eth-contract.html#methods-mymethod-send
+      
+      asset.methods.sendHash(this.state.ipfsHash).send({
+        from: accounts[0] 
+      }, (error, transactionHash) => {
+        console.log(transactionHash);
+        this.setState({ transactionHash });
+      });
+    }) //await ipfs.add 
   }
 
 
@@ -522,17 +555,7 @@ class App extends Component {
               <input type="text" value={this.state.valueOfProductionTown} onChange={this.handleInputProductionTown} />
 
               <p>Image of Production</p>
-              <Form onSubmit = { this.onSubmit }>
-                <input 
-                  type = "file"
-                  onChange = { this.captureFile }
-                />
-                 <Button 
-                 bsStyle="primary" 
-                 type="submit"> 
-                 Send it 
-                 </Button>
-              </Form>
+              <input type = "file" onChange={ this.captureFile } />
 
               <Button onClick={this.sendProductionCreate}>SEND（Production Register）</Button>
             </Card>
