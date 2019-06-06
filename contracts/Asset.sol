@@ -68,4 +68,20 @@ contract Asset is Ownable, ProductionOwnable {
         return productions.length - 1;
     }
 
+
+
+
+    ///////////
+    /// IPFS
+    ///////////
+    string ipfsHash;
+ 
+    function sendHash(string memory x) public {
+       ipfsHash = x;
+    }
+
+    function getHash() public view returns (string memory x) {
+       return ipfsHash;
+    }
+
 }
