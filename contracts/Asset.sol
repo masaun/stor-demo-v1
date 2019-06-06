@@ -15,7 +15,8 @@ contract Asset is Ownable, ProductionOwnable {
         uint id;
         address addr;
         string town;
-        mapping (string => Coordinate) coordinates;  // Using town name as key 
+        mapping (string => Coordinate) coordinates;  // Using town name as key
+        mapping (uint => IpfsHash) ipfsHashes;
     }
     Production[] public productions;
 
@@ -24,6 +25,12 @@ contract Asset is Ownable, ProductionOwnable {
         uint latitude;
         uint longitude;
     }
+
+
+    struct IpfsHash {
+        string ipfsHash;
+    }
+    
 
 
     event ProductionRegister(uint indexed id, address indexed addr, string town);
@@ -77,11 +84,19 @@ contract Asset is Ownable, ProductionOwnable {
     string ipfsHash;
  
     function sendHash(string memory x) public {
-       ipfsHash = x;
+        ipfsHash = x;
     }
 
     function getHash() public view returns (string memory x) {
-       return ipfsHash;
+        return ipfsHash;
+    }
+
+
+    function productionRegisterIpfsHash(uint _id, string memory _returnedIpfsHash) public returns (string memory) {
+        IpfsHash memory ipfs = productions[_id].ipfsHashes[_id];
+        ipfs.ipfsHash = _returnedIpfsHash;
+
+        return _returnedIpfsHash;
     }
 
 }

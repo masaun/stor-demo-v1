@@ -104,14 +104,14 @@ class App extends Component {
     });
 
 
-    ////////////////////
-    /// Integrate IPFS into sendProductionCreate
-    ////////////////////
+    //////////////////////////////////////////////
+    /// Integrate IPFS into sendProductionCreate function
+    //////////////////////////////////////////////
     event.preventDefault();
    
     console.log('Sending from Metamask account: ' + accounts[0]);
 
-    //obtain contract address from storehash.js
+    //obtain contract address
     const ethAddress = await asset.options.address;
     this.setState({ ethAddress });
 
@@ -134,7 +134,7 @@ class App extends Component {
         console.log(transactionHash);
         this.setState({ transactionHash });
       });
-    }) //await ipfs.add 
+    })
   }
 
 
@@ -144,9 +144,9 @@ class App extends Component {
 
 
 
-  //////////////
+  //////////////////
   ///// IPFS
-  //////////////
+  //////////////////
   captureFile = (event) => {
     event.stopPropagation()
     event.preventDefault()
