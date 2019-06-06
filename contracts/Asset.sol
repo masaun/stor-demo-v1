@@ -2,12 +2,12 @@ pragma solidity ^0.5.0;
 
 import "openzeppelin-solidity-2.1.1/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity-2.1.1/contracts/ownership/Ownable.sol";
-import "./IPFSInbox.sol";
+import "./ProductionOwnable.sol";
 
 
 
 
-contract Asset is Ownable {
+contract Asset is Ownable, ProductionOwnable {
 
     uint public _productionId; 
 
@@ -24,24 +24,6 @@ contract Asset is Ownable {
         uint latitude;
         uint longitude;
     }
-
-
-
-    /**
-    * [In progress] modifier of onlyProductionOwner
-    */
-    address public productionOwner;  // [To do]：Change assigning value next time from msg.sender to another value
-
-    modifier onlyProductionOwner() { 
-        require (isProductionOwner()); 
-        _; 
-    }
-
-    function isProductionOwner() public view returns (bool) {
-        return msg.sender == productionOwner;
-    }
-
-
 
 
     event ProductionRegister(uint indexed id, address indexed addr, string town);
