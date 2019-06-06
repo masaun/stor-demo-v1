@@ -2,6 +2,7 @@ pragma solidity ^0.5.0;
 
 import "openzeppelin-solidity-2.1.1/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity-2.1.1/contracts/ownership/Ownable.sol";
+import "./IPFSInbox.sol";
 
 
 
@@ -29,7 +30,7 @@ contract Asset is Ownable {
     /**
     * [In progress] modifier of onlyProductionOwner
     */
-    address public productionOwner == msg.sender;  // [To do]：Change assigning value next time from msg.sender to another value
+    address public productionOwner;  // [To do]：Change assigning value next time from msg.sender to another value
 
     modifier onlyProductionOwner() { 
         require (isProductionOwner()); 
