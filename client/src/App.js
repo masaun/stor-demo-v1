@@ -140,8 +140,6 @@ class App extends Component {
       const n = new BN(hex, 16)
       console.log('=== n.toString(10) ===', n.toString(10)) // 537335293128262426148241029128274019001757729355677528305490323656269309818148891
 
-
-
       // asset.methods.sendHash(this.state.ipfsHash).send({
       //   from: accounts[0] 
       // }, (error, transactionHash) => {
@@ -149,7 +147,8 @@ class App extends Component {
       //   this.setState({ transactionHash });
       // });
 
-      asset.methods.productionRegisterIpfsHash(productionId, ipfsHash[0].hash).send({ 
+      asset.methods.productionRegisterIpfsHash(productionId, hex).send({
+      //asset.methods.productionRegisterIpfsHash(productionId, ipfsHash[0].hash).send({
         from: accounts[0]
       }).then((instance) => {
         console.log('=== ipfsHash[0].hash (in executing productionRegisterIpfsHash function) ===', ipfsHash[0].hash);

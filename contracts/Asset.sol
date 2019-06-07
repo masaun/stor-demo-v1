@@ -35,7 +35,6 @@ contract Asset is Ownable, ProductionOwnable {
 
     event ProductionRegister(uint indexed id, address indexed addr, string town);
     event ProductionRegisterIpfsHash(string indexed returnedIpfsHash);
-    
 
 
     constructor () public {
@@ -59,17 +58,33 @@ contract Asset is Ownable, ProductionOwnable {
     }
 
 
-    function productionDetail(uint _id) public view returns(uint id, address addr, string memory town) {
+    function productionDetail(uint _id) 
+        public view returns 
+    (
+        uint, 
+        address, 
+        string memory,
+        uint,
+        uint,
+        string memory
+    ) 
+    {
         uint production_id;
         address production_addr;
         string memory production_town;
+        uint production_latitude;
+        uint production_longitude;
+        string memory production_ipfsHash;
 
         Production memory production = productions[_id];
         production_id = productions[_id].id;
         production_addr = productions[_id].addr;
         production_town = productions[_id].town;
+        production_latitude = productions[_id].coordinates[productions[_id].town].latitude;
+        production_longitude = productions[_id].coordinates[productions[_id].town].longitude;
+        production_ipfsHash = productions[_id].ipfsHashes[_id].ipfsHash;
 
-        return (production_id, production_addr, production_town);
+        return (production_id, production_addr, production_town, production_latitude, production_longitude, production_ipfsHash);
     }
     
 
