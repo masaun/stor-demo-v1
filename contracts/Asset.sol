@@ -61,12 +61,12 @@ contract Asset is Ownable, ProductionOwnable {
     function productionDetail(uint _id) 
         public view returns 
     (
-        uint, 
-        address, 
-        string memory,
-        uint,
-        uint,
-        string memory
+        uint id, 
+        address addr, 
+        string memory town,
+        uint latitude,
+        uint longitude,
+        string memory ipfsHash
     ) 
     {
         uint production_id;
