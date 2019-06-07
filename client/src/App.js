@@ -21,6 +21,7 @@ import { Grid } from 'react-bootstrap';
 import { zeppelinSolidityHotLoaderOptions } from '../config/webpack';
 
 import styles from './App.module.scss';
+import MapStyles from './components/Map/Map.module.css';
 
 class App extends Component {
   constructor(props) {
@@ -353,6 +354,23 @@ class App extends Component {
       );
       console.error(error);
     }
+
+    /***** Display Map from TomTom Map API *****/
+    const script = document.createElement('script');
+     script.src = process.env.PUBLIC_URL + '/sdk/tomtom.min.js';
+     document.body.appendChild(script);
+     script.async = true;
+     script.onload = function () {
+       window.tomtom.L.map('map', {
+         source: 'vector',
+         key: 'Write My API',
+         //key: '<your-api-key>',
+         center: [37.769167, -122.478468],
+         basePath: '/sdk',
+         zoom: 15
+       });
+     }
+
   };
 
   componentWillUnmount() {
@@ -705,6 +723,11 @@ class App extends Component {
                 </tbody>
               </Table>
             </Grid>
+
+            <br />
+            <br />
+
+            <div id = 'map'></div>
 
           </div>
         </div>

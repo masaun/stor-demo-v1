@@ -4,9 +4,11 @@ contract('Asset', (accounts) => {
     it('Execute Register function', async () => {
         const accounts = await web3.eth.getAccounts();
 
+        // Value of argument for test
         const _addr = "0x8c43b7f99eea463ff39d839731a87c02abc0b591";
         const _town = "City of Madrid";
 
+        // Execute function
         const contract = await new web3.eth.Contract(Asset.abi, Asset.address);
         const response = await contract.methods.productionRegister(_addr, _town).send({ from: accounts[0], gas: 3000000 });
 
