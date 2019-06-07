@@ -104,4 +104,6 @@ contract Asset is Ownable, ProductionOwnable {
         return _returnedIpfsHash;
     }
 
+   
+
 }

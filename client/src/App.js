@@ -11,6 +11,10 @@ import Instructions from "./components/Instructions/index.js";
 import web3 from "web3";
 import ipfs from './components/IPFS/ipfs';
 
+/* Using for decoding IPFS hash */
+import bs58 from "bs58"
+import BN from "bn.js"
+
 import { Loader, Button, Card, Input, Heading, Table, Form } from 'rimble-ui';
 import { Grid } from 'react-bootstrap';
 
@@ -127,6 +131,17 @@ class App extends Component {
 
       this.setState({ ipfsHash: ipfsHash[0].hash });
 
+      /* Decoding IPFS hash */
+      const hash = ipfsHash[0].hash
+      //const hash = 'QmXGTaGWTT1uUtfSb2sBAvArMEVLK4rQEcQg5bv7wwdzwU'
+      const hex = bs58.decode(hash).toString('hex')
+      console.log('=== hex ===', hex) // 122084a644bfcb8639e1b1a1fc72fd0ad1826b91f7a9baa06ad409ac3c02b31f981b
+
+      const n = new BN(hex, 16)
+      console.log('=== n.toString(10) ===', n.toString(10)) // 537335293128262426148241029128274019001757729355677528305490323656269309818148891
+
+
+
       // asset.methods.sendHash(this.state.ipfsHash).send({
       //   from: accounts[0] 
       // }, (error, transactionHash) => {
@@ -137,6 +152,7 @@ class App extends Component {
       asset.methods.productionRegisterIpfsHash(productionId, ipfsHash[0].hash).send({ 
         from: accounts[0]
       }).then((instance) => {
+        console.log('=== ipfsHash[0].hash (in executing productionRegisterIpfsHash function) ===', ipfsHash[0].hash);
         console.log('=== instance ===', instance)
         console.log('=== event value of returnedIpfsHash ===', instance.events.ProductionRegisterIpfsHash.returnValues.returnedIpfsHash);
       });
