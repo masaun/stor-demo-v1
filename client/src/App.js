@@ -123,6 +123,7 @@ class App extends Component {
       console.log('=== err ===');
       console.log('=== ipfsHash ===', ipfsHash);
       console.log('=== ipfsHash[0].hash ===', ipfsHash[0].hash);
+      console.log('=== ipfsHash[0].hash typeof ===', typeof ipfsHash[0].hash);
 
       this.setState({ ipfsHash: ipfsHash[0].hash });
 
