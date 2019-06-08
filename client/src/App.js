@@ -23,6 +23,15 @@ import { zeppelinSolidityHotLoaderOptions } from '../config/webpack';
 import styles from './App.module.scss';
 import MapStyles from './components/Map/Map.module.css';
 
+
+import dotenv from 'dotenv'
+dotenv.config()
+//require('dotenv').config();
+const MAP_API_KEY = process.env.MAP_API_KEY;
+console.log('=== MAP_API_KEY ===', MAP_API_KEY);
+
+
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -357,19 +366,21 @@ class App extends Component {
 
     /***** Display Map from TomTom Map API *****/
     const script = document.createElement('script');
-     script.src = process.env.PUBLIC_URL + '/sdk/tomtom.min.js';
-     document.body.appendChild(script);
-     script.async = true;
-     script.onload = function () {
-       window.tomtom.L.map('map', {
-         source: 'vector',
-         key: 'Write My API',
-         //key: '<your-api-key>',
-         center: [37.769167, -122.478468],
-         basePath: '/sdk',
-         zoom: 15
-       });
-     }
+    //script.src = '../public/sdk/tomtom.min.js';
+    script.src = process.env.PUBLIC_URL + '/sdk/tomtom.min.js';
+    document.body.appendChild(script);
+    script.async = true;
+    script.onload = function () {
+      window.tomtom.L.map('map', {
+        source: 'vector',
+        key: "zzfvLaj8kWBmYRPl6rJqxpiKqKW91AV4",
+        //key: MAP_API_KEY,
+        //key: '<your-api-key>',
+        center: [37.769167, -122.478468],
+        basePath: '/sdk',
+        zoom: 15
+      });
+    }
 
   };
 
@@ -724,10 +735,8 @@ class App extends Component {
               </Table>
             </Grid>
 
-            <br />
-            <br />
 
-            <div id = 'map'></div>
+            <div id='map'></div>
 
           </div>
         </div>
@@ -736,16 +745,40 @@ class App extends Component {
     );
   }
 
+  renderMap() {
+    const { production_address, production_town } = this.state;
+
+    return (
+      <div className={styles.wrapper}>
+      {!this.state.web3 && this.renderLoader()}
+      {this.state.web3 && !this.state.asset && (
+        this.renderDeployCheck('asset')
+      )}
+      {this.state.web3 && this.state.asset && (
+        <div className={styles.contracts}>
+          <div className={styles.widgets}>
+
+            <div id='map'></div>
+
+          </div>
+        </div>
+      )}
+      </div>
+    );
+  }
+
+
   render() {
     return (
       <div className={styles.App}>
         <Header />
-          {this.state.route === '' && this.renderInstructions()}
-          {this.state.route === 'counter' && this.renderBody()}
-          {this.state.route === 'evm' && this.renderEVM()}
+          {/* {this.state.route === '' && this.renderInstructions()} */}
+          {/* {this.state.route === 'counter' && this.renderBody()} */}
+          {/* {this.state.route === 'evm' && this.renderEVM()} */}
           {/* {this.state.route === 'faq' && this.renderFAQ()} */}
           {this.state.route === 'list' && this.renderList()}
           {this.state.route === 'asset' && this.renderAsset()}
+          {this.state.route === 'map' && this.renderMap()}
         <Footer />
       </div>
     );

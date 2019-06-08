@@ -19,6 +19,7 @@ const Header = () => (
         {/* <li><a href="/faq" className={styles.link}> FAQ</a></li> */}
         <li><a href="/list" className={styles.link}> List</a></li>
         <li><a href="/asset" className={styles.link}> Asset</a></li>
+        <li><a href="/map" className={styles.link}> MAP</a></li>
       </ul>
     </nav>
   </div>
