@@ -60,7 +60,6 @@ class App extends Component {
         { transactionHash: '0xge...a78', ethAmount: '0.13 ETH' },
       ],
 
-
       /////// IPFS
       ipfsHash:null,
       buffer:'',
@@ -68,7 +67,11 @@ class App extends Component {
       blockNumber:'',
       transactionHash:'',
       gasUsed:'',
-      txReceipt: ''
+      txReceipt: '',
+
+      /////// Geo
+      latitude: null,
+      longitude: null
     };
 
     this.handleInputProductionAddress = this.handleInputProductionAddress.bind(this);
@@ -247,11 +250,6 @@ class App extends Component {
 
 
 
-
-
-
-
-
   //////////////////////////////////// 
   ///// Ganache
   ////////////////////////////////////
@@ -364,24 +362,24 @@ class App extends Component {
       console.error(error);
     }
 
-    /***** Display Map from TomTom Map API *****/
-    const script = document.createElement('script');
-    //script.src = '../public/sdk/tomtom.min.js';
-    script.src = process.env.PUBLIC_URL + '/sdk/tomtom.min.js';
-    document.body.appendChild(script);
-    script.async = true;
-    script.onload = function () {
-      window.tomtom.L.map('map', {
-        source: 'vector',
-        key: "zzfvLaj8kWBmYRPl6rJqxpiKqKW91AV4",
-        //key: MAP_API_KEY,
-        //key: '<your-api-key>',
-        center: [37.769167, -122.478468],
-        basePath: '/sdk',
-        zoom: 15
-      });
-    }
-
+    /***** [BEGIN] Display Map from TomTom Map API *****/
+    // const script = document.createElement('script');
+    // //script.src = '../public/sdk/tomtom.min.js';
+    // script.src = process.env.PUBLIC_URL + '/sdk/tomtom.min.js';
+    // document.body.appendChild(script);
+    // script.async = true;
+    // script.onload = function () {
+    //   window.tomtom.L.map('map', {
+    //     source: 'vector',
+    //     key: "zzfvLaj8kWBmYRPl6rJqxpiKqKW91AV4",     // API-KEY sample
+    //     //key: MAP_API_KEY,
+    //     //key: '<your-api-key>',
+    //     center: [37.769167, -122.478468],
+    //     basePath: '/sdk',
+    //     zoom: 15
+    //   });
+    // }
+    /***** [END] Display Map from TomTom Map API *****/
   };
 
   componentWillUnmount() {
@@ -746,7 +744,23 @@ class App extends Component {
   }
 
   renderMap() {
-    const { production_address, production_town } = this.state;
+    const { production_address, production_town, latitude, longitude } = this.state;
+
+    ////// Using Geolocation API 
+    navigator.geolocation.getCurrentPosition(
+      pos => console.log(
+               '=== pos ===', pos, 
+               '=== pos,coords ===', pos.coords, 
+               '=== pos.coords.latitude ===', pos.coords.latitude,
+               '=== pos.coords.longitude ===', pos.coords.longitude,
+             ),
+      err => console.log('=== err ===', err)
+    );
+
+    navigator.geolocation.getCurrentPosition(
+      pos => this.setState({ latitude: pos.coords.latitude, longitude: pos.coords.longitude }),
+      err => console.log('=== err ===', err)
+    );
 
     return (
       <div className={styles.wrapper}>
@@ -758,7 +772,10 @@ class App extends Component {
         <div className={styles.contracts}>
           <div className={styles.widgets}>
 
-            <div id='map'></div>
+            {/* <div id='map'></div> */}
+
+            <div>Latitude: { this.state.latitude }</div>
+            <div>Longitude: { this.state.longitude }</div>
 
           </div>
         </div>
