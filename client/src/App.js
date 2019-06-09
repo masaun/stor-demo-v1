@@ -69,7 +69,7 @@ class App extends Component {
       gasUsed:'',
       txReceipt: '',
 
-      /////// Geo
+      /////// Geo data（Coordinates）
       latitude: null,
       longitude: null
     };
@@ -746,7 +746,7 @@ class App extends Component {
   renderMap() {
     const { production_address, production_town, latitude, longitude } = this.state;
 
-    ////// Using Geolocation API 
+    ////// Geo data（Coordinates）by using Geolocation API 
     navigator.geolocation.getCurrentPosition(
       pos => console.log(
                '=== pos ===', pos, 
