@@ -34,6 +34,7 @@ contract Asset is Ownable, ProductionOwnable {
 
 
     event ProductionRegister(uint indexed id, address indexed addr, string town);
+    event ProductionCoordinateRegister(string town, string latitude, string longitude);
     event ProductionRegisterIpfsHash(string indexed returnedIpfsHash);
 
 
@@ -61,6 +62,17 @@ contract Asset is Ownable, ProductionOwnable {
         return (production.id, _addr, _town);
     }
 
+
+    function productionCoordinateRegister(string memory _town, string memory _latitude, string memory _longitude) public returns (string memory, string memory, string memory)  {
+        Coordinate memory coordinate = productions[_productionId].coordinates[_town];
+        coordinate.latitude = _latitude;
+        coordinate.latitude = _longitude;
+
+        emit ProductionCoordinateRegister(_town, _latitude, _longitude);
+
+        return (_town, _latitude, _longitude);
+    }
+    
 
     function productionDetail(uint _id) 
         public view returns 
@@ -123,6 +135,5 @@ contract Asset is Ownable, ProductionOwnable {
         return _returnedIpfsHash;
     }
 
-   
 
 }
