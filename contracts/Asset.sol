@@ -22,8 +22,8 @@ contract Asset is Ownable, ProductionOwnable {
 
 
     struct Coordinate {
-        uint latitude;
-        uint longitude;
+        string latitude;
+        string longitude;
     }
 
 
@@ -33,7 +33,7 @@ contract Asset is Ownable, ProductionOwnable {
     
 
 
-    event ProductionRegister(uint indexed id, address indexed addr, string town);
+    event ProductionRegister(uint indexed id, address indexed addr, string town, string latitude, string longitude);
     event ProductionRegisterIpfsHash(string indexed returnedIpfsHash);
 
 
@@ -42,19 +42,25 @@ contract Asset is Ownable, ProductionOwnable {
     }
 
 
-    function productionRegister(address _addr, string memory _town) public returns (uint, address, string memory) {
+    function productionRegister(address _addr, string memory _town) public returns (uint, address, string memory, string memory, string memory) {
         
+        // This constant value below is for temporary test
+        string memory _latitude = '52.5537493';
+        string memory _longitude = '13.2920935';
+
         Production memory production;
         production.id = _productionId;
         production.addr = _addr;
         production.town = _town;
-        
+        productions[_productionId].coordinates[productions[_productionId].town].latitude = _latitude;
+        productions[_productionId].coordinates[productions[_productionId].town].longitude = _longitude;
+
         productions.push(production);
 
-        emit ProductionRegister(production.id, _addr, _town);
+        emit ProductionRegister(production.id, _addr, _town, _latitude, _longitude);
         _productionId++;
 
-        return (production.id, _addr, _town);
+        return (production.id, _addr, _town, _latitude, _longitude);
     }
 
 
@@ -64,16 +70,16 @@ contract Asset is Ownable, ProductionOwnable {
         uint id, 
         address addr, 
         string memory town,
-        uint latitude,
-        uint longitude,
+        string memory latitude,
+        string memory longitude,
         string memory ipfsHash
     ) 
     {
         uint production_id;
         address production_addr;
         string memory production_town;
-        uint production_latitude;
-        uint production_longitude;
+        string memory production_latitude;
+        string memory production_longitude;
         string memory production_ipfsHash;
 
         Production memory production = productions[_id];
