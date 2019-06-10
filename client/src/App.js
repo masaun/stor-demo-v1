@@ -23,6 +23,8 @@ import { zeppelinSolidityHotLoaderOptions } from '../config/webpack';
 import styles from './App.module.scss';
 import MapStyles from './components/Map/Map.module.css';
 
+import SimpleMap from './components/Map/GoogleMapReact';  // Google Map API
+
 
 import dotenv from 'dotenv'
 dotenv.config()
@@ -153,21 +155,22 @@ class App extends Component {
       const n = new BN(hex, 16)
       console.log('=== n.toString(10) ===', n.toString(10)) // 537335293128262426148241029128274019001757729355677528305490323656269309818148891
 
-      // asset.methods.sendHash(this.state.ipfsHash).send({
-      //   from: accounts[0] 
-      // }, (error, transactionHash) => {
-      //   console.log(transactionHash);
-      //   this.setState({ transactionHash });
-      // });
-
-      asset.methods.productionRegisterIpfsHash(productionId, hex).send({
-      //asset.methods.productionRegisterIpfsHash(productionId, ipfsHash[0].hash).send({
+      //asset.methods.productionRegisterIpfsHash(productionId, hex).send({
+      asset.methods.productionRegisterIpfsHash(productionId, ipfsHash[0].hash).send({
         from: accounts[0]
       }).then((instance) => {
         console.log('=== ipfsHash[0].hash (in executing productionRegisterIpfsHash function) ===', ipfsHash[0].hash);
         console.log('=== instance ===', instance)
         console.log('=== event value of returnedIpfsHash ===', instance.events.ProductionRegisterIpfsHash.returnValues.returnedIpfsHash);
       });
+
+
+      // asset.methods.sendHash(this.state.ipfsHash).send({
+      //   from: accounts[0] 
+      // }, (error, transactionHash) => {
+      //   console.log(transactionHash);
+      //   this.setState({ transactionHash });
+      // });
     })
   }
 
@@ -776,6 +779,9 @@ class App extends Component {
 
             <div>Latitude: { this.state.latitude }</div>
             <div>Longitude: { this.state.longitude }</div>
+
+            <SimpleMap />
+            
 
           </div>
         </div>
