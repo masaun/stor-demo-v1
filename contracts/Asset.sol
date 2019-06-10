@@ -33,7 +33,7 @@ contract Asset is Ownable, ProductionOwnable {
     
 
 
-    event ProductionRegister(uint indexed id, address indexed addr, string town, string latitude, string longitude);
+    event ProductionRegister(uint indexed id, address indexed addr, string town);
     event ProductionRegisterIpfsHash(string indexed returnedIpfsHash);
 
 
@@ -42,25 +42,23 @@ contract Asset is Ownable, ProductionOwnable {
     }
 
 
-    function productionRegister(address _addr, string memory _town) public returns (uint, address, string memory, string memory, string memory) {
+    function productionRegister(address _addr, string memory _town) public returns (uint, address, string memory) {
         
         // This constant value below is for temporary test
-        string memory _latitude = '52.5537493';
-        string memory _longitude = '13.2920935';
+        // string memory _latitude = '52.5537493';
+        // string memory _longitude = '13.2920935';
 
         Production memory production;
         production.id = _productionId;
         production.addr = _addr;
         production.town = _town;
-        productions[_productionId].coordinates[productions[_productionId].town].latitude = _latitude;
-        productions[_productionId].coordinates[productions[_productionId].town].longitude = _longitude;
 
         productions.push(production);
 
-        emit ProductionRegister(production.id, _addr, _town, _latitude, _longitude);
+        emit ProductionRegister(production.id, _addr, _town);
         _productionId++;
 
-        return (production.id, _addr, _town, _latitude, _longitude);
+        return (production.id, _addr, _town);
     }
 
 
