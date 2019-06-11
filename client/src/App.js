@@ -792,6 +792,13 @@ class App extends Component {
               lineWidth={15}
               paddingAngle={5}
               lengthAngle={-360}
+              
+              label
+              labelStyle={{
+                fontSize: '25px',
+                fontFamily: 'sans-serif'
+              }}
+              labelPosition={0}
             />;
 
           </div>
