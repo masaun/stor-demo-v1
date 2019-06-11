@@ -802,6 +802,7 @@ class App extends Component {
                   { title: 'Two', value: 15, color: '#C13C37' },
                   { title: 'Three', value: 20, color: '#6A2135' },
                 ]}
+                style={{ height: '400px' }}  // Size of pie chart
                 lineWidth={15}
                 paddingAngle={5}
                 lengthAngle={-360}
