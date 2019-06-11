@@ -6,13 +6,17 @@ pragma solidity ^0.5.0;
  */
 contract Gamification {
 
+    struct Something {
+        // in progress
+        address addr;
+        uint amount;
+    }
+    
+
+
     constructor () public {
         // in progress
     }
-
-
-
-
 
 }
 
