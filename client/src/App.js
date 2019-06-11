@@ -25,6 +25,7 @@ import MapStyles from './components/Map/Map.module.css';
 
 import SimpleMap from './components/Map/GoogleMapReact';  // Google Map API
 
+import PieChart from 'react-minimal-pie-chart';  // Pie Chart（Circle graph）
 
 import dotenv from 'dotenv'
 dotenv.config()
@@ -781,7 +782,14 @@ class App extends Component {
             <div>Longitude: { this.state.longitude }</div>
 
             <SimpleMap />
-            
+
+            <PieChart
+              data={[
+                { title: 'One', value: 10, color: '#E38627' },
+                { title: 'Two', value: 15, color: '#C13C37' },
+                { title: 'Three', value: 20, color: '#6A2135' },
+              ]}
+            />;
 
           </div>
         </div>
