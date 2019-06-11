@@ -2,7 +2,7 @@ pragma solidity ^0.5.0;
 
 
 /**
- * The Gamification contract that prediction market of energy consumption
+ * The Gamification contract that provide prediction market of topic of energy
  */
 contract Gamification {
 
@@ -11,7 +11,7 @@ contract Gamification {
     }
 
 
-    
+
 
 
 }
