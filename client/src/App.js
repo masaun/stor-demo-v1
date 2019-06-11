@@ -784,6 +784,18 @@ class App extends Component {
             <SimpleMap />
 
             <Card>
+              <h1>Traceability</h1>
+              <h2>100 kw/h</h2>
+
+              <br />
+
+              <hr />
+
+              <br />
+
+              <h1>Today</h1>
+
+
               <PieChart
                 data={[
                   { title: 'One', value: 10, color: '#E38627' },
@@ -796,10 +808,12 @@ class App extends Component {
 
                 label
                 labelStyle={{
-                  fontSize: '25px',
+                  //fontSize: '25px',
+                  fontSize: '5px',
                   fontFamily: 'sans-serif'
                 }}
-                labelPosition={0}
+                //labelPosition={0}
+                labelPosition={60}
 
                 animate // can use animation
               />
