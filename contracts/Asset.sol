@@ -46,8 +46,8 @@ contract Asset is Ownable, ProductionOwnable {
     function productionRegister(address _addr, string memory _town) public returns (uint, address, string memory) {
         
         // This constant value below is for temporary test
-        // string memory _latitude = '52.5537493';
-        // string memory _longitude = '13.2920935';
+        string memory _latitude = '52.5537493';
+        string memory _longitude = '13.2920935';
 
         Production memory production;
         production.id = _productionId;
