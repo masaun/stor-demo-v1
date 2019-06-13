@@ -1,7 +1,7 @@
 pragma solidity ^0.5.0;
 
 /* @notice Using OpenZeppelin-solidity v2.1.1 */
-import "openzeppelin-solidity-2.1.1/contracts/token/ERC20/ERC20.sol";
+import "openzeppelin-solidity-2.1.1/contracts/token/ERC20/ERC20.sol";  // ERC20.sol include IERC20.sol by importing it in ERC20.sol
 import "openzeppelin-solidity-2.1.1/contracts/token/ERC20/ERC20Detailed.sol";
 import "openzeppelin-solidity-2.1.1/contracts/token/ERC20/ERC20Mintable.sol";
 import "openzeppelin-solidity-2.1.1/contracts/token/ERC20/ERC20Burnable.sol";
