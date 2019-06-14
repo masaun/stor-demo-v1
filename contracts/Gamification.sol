@@ -29,16 +29,16 @@ contract Gamification {
     event TransferStakingToken(address stakingToken, uint predictionContentId, address participant, uint amount);
 
 
-    constructor (address _stakingToken) public {
+    constructor (address _stakingTokenAddress) public {
         //require(_stakingToken != 0x0);
-        stakingToken = StakingToken(_stakingToken);
+        stakingToken = StakingToken(_stakingTokenAddress);
     }
 
 
 
     /* @dev Transfer staking token when participants join some prediction of topic */
-    function transferStakingToken(address _stakingToken, uint _predictionContentId, address _participant, uint _amount) public returns (bool) {
-        emit TransferStakingToken(_stakingToken, _predictionContentId, _participant, _amount);
+    function transferStakingToken(address _stakingTokenAddress, uint _predictionContentId, address _participant, uint _amount) public returns (bool) {
+        emit TransferStakingToken(_stakingTokenAddress, _predictionContentId, _participant, _amount);
     }
     
     function buyStakingToken(address _participant, uint _amount) public returns (bool) {
