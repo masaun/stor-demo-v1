@@ -19,9 +19,13 @@ contract('Asset', (accounts) => {
         // Execute function
         const contract = await new web3.eth.Contract(Gamification.abi, Gamification.address);
         const response = await contract.methods.transferStakingToken(_stakingToken, _predictionContentId, _participant, _amount).send({ from: accounts[0], gas: 3000000 });
+ 
+        const event = response.events.TransferStakingToken.returnValues;
+        const eventValue = response.events.TransferStakingToken.returnValues.stakingToken;
 
         // Debug
         console.log('=== response of transferStakingToken function ===', response);
-
+        console.log('=== Check event of TransferStakingToken===', event);
+        console.log('=== Check event value of stakingToken of TransferStakingToken function ===', eventValue);
     })
 })

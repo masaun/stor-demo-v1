@@ -8,6 +8,8 @@ import "./StakingToken.sol";
  */
 contract Gamification {
 
+    StakingToken public stakingToken;
+
     uint predictionContentId;
 
     struct PredictionContent {
@@ -24,15 +26,19 @@ contract Gamification {
     }
 
 
-    constructor () public {
-        // in progress
+    event TransferStakingToken(address stakingToken, uint predictionContentId, address participant, uint amount);
+
+
+    constructor (address _stakingToken) public {
+        //require(_stakingToken != 0x0);
+        stakingToken = StakingToken(_stakingToken);
     }
 
 
 
-
     /* @dev Transfer staking token when participants join some prediction of topic */
-    function transferStakingToken(StakingToken _stakingToken, uint _predictionContentId, address _participant, uint _amount) public returns (bool) {
+    function transferStakingToken(address _stakingToken, uint _predictionContentId, address _participant, uint _amount) public returns (bool) {
+        emit TransferStakingToken(_stakingToken, _predictionContentId, _participant, _amount);
     }
     
     function buyStakingToken(address _participant, uint _amount) public returns (bool) {
