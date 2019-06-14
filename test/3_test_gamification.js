@@ -2,7 +2,7 @@ const Gamification = artifacts.require('Gamification.sol')
 const StakingToken = artifacts.require("StakingToken.sol");  // For getting contract address of StakingToken.sol
 
 
-contract('Asset', (accounts) => {
+contract('Gamification', (accounts) => {
     it('Execute transferStakingToken function', async () => {
         const accounts = await web3.eth.getAccounts();
 
@@ -19,7 +19,7 @@ contract('Asset', (accounts) => {
         // Execute function
         const contract = await new web3.eth.Contract(Gamification.abi, Gamification.address);
         const response = await contract.methods.transferStakingToken(_stakingToken, _predictionContentId, _participant, _amount).send({ from: accounts[0], gas: 3000000 });
- 
+
         const event = response.events.TransferStakingToken.returnValues;
         const eventValue = response.events.TransferStakingToken.returnValues.stakingToken;
 
