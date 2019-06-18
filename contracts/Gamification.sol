@@ -30,7 +30,7 @@ contract Gamification {
 
 
     event TransferStakingToken(StakingToken stakingToken, uint predictionTopicId, address participant, uint amount);
-    event CreatePredictionTopic(uint predictionTopicId, string _title, string _description, uint _stakingPrice, address _creator);
+    event CreatePredictionTopic(uint predictionTopicId, string title, string description, uint stakingPrice, address creator);
     
 
     constructor (address _stakingTokenAddress) public {
@@ -62,7 +62,7 @@ contract Gamification {
         uint _stakingPrice,
         address _creator
     ) 
-        public returns (bool res) 
+        public returns (uint, string memory, string memory, uint, address) 
     {
         PredictionTopic memory predictionTopic = predictionTopics[_predictionTopicId];
         predictionTopic.id = _predictionTopicId;
@@ -76,6 +76,8 @@ contract Gamification {
         emit CreatePredictionTopic(_predictionTopicId, _title, _description, _stakingPrice, _creator);
 
         predictionTopicId++;
+
+        return (_predictionTopicId, _title, _description, _stakingPrice, _creator);
     }
 
 
