@@ -14,6 +14,7 @@ contract Gamification {
     uint participantId;
 
     struct PredictionTopic {
+        uint id;
         string title;
         string description;
         uint stakingPrice;  // Define price of staking token which need to stake for topic
@@ -29,7 +30,8 @@ contract Gamification {
 
 
     event TransferStakingToken(StakingToken stakingToken, uint predictionTopicId, address participant, uint amount);
-
+    event CreatePredictionTopic(uint predictionTopicId, string _title, string _description, uint _stakingPrice, address _creator);
+    
 
     constructor (address _stakingTokenAddress) public {
         //require(_stakingToken != 0x0);
@@ -62,7 +64,17 @@ contract Gamification {
     ) 
         public returns (bool res) 
     {
-        // in progress
+        PredictionTopic memory predictionTopic = predictionTopics[_predictionTopicId];
+        predictionTopic.id = _predictionTopicId;
+        predictionTopic.title = _title;
+        predictionTopic.description = _description;
+        predictionTopic.stakingPrice = _stakingPrice;
+        predictionTopic.creator = _creator;
+
+        predictionTopics.push(predictionTopic);
+
+        emit CreatePredictionTopic(_predictionTopicId, _title, _description, _stakingPrice, _creator);
+
         predictionTopicId++;
     }
 
