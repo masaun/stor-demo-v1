@@ -28,7 +28,7 @@ contract Gamification {
     }
 
 
-    event TransferStakingToken(address stakingToken, uint predictionTopicId, address participant, uint amount);
+    event TransferStakingToken(StakingToken stakingToken, uint predictionTopicId, address participant, uint amount);
 
 
     constructor (address _stakingTokenAddress) public {
@@ -39,7 +39,7 @@ contract Gamification {
 
 
     /* @dev Transfer staking token when participants join some prediction of topic */
-    function transferStakingToken(address _stakingTokenAddress, uint _predictionTopicId, address _participant, uint _amount) public returns (bool) {
+    function transferStakingToken(StakingToken _stakingTokenAddress, uint _predictionTopicId, address _participant, uint _amount) public returns (bool) {
         emit TransferStakingToken(_stakingTokenAddress, _predictionTopicId, _participant, _amount);
     }
     
