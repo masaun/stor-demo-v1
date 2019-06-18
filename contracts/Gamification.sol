@@ -10,15 +10,17 @@ contract Gamification {
 
     StakingToken public stakingToken;
 
-    uint predictionContentId;
+    uint predictionTopicId;
+    uint participantId;
 
-    struct PredictionContent {
-        string topic;       // Prediction Topic title
-        string detail;      // Prediction Topic detail
-        string category;    // Prediction Topic category
+    struct PredictionTopic {
+        string title;
+        string description;
+        uint stakingPrice;  // Define price of staking token which need to stake for topic
+        address creator;
         mapping (address => VotingCount) counts;
     }
-    PredictionContent[] public contents;
+    PredictionTopic[] public predictionTopics;
     
     struct VotingCount {
         uint yes;
@@ -26,7 +28,7 @@ contract Gamification {
     }
 
 
-    event TransferStakingToken(address stakingToken, uint predictionContentId, address participant, uint amount);
+    event TransferStakingToken(address stakingToken, uint predictionTopicId, address participant, uint amount);
 
 
     constructor (address _stakingTokenAddress) public {
@@ -37,8 +39,8 @@ contract Gamification {
 
 
     /* @dev Transfer staking token when participants join some prediction of topic */
-    function transferStakingToken(address _stakingTokenAddress, uint _predictionContentId, address _participant, uint _amount) public returns (bool) {
-        emit TransferStakingToken(_stakingTokenAddress, _predictionContentId, _participant, _amount);
+    function transferStakingToken(address _stakingTokenAddress, uint _predictionTopicId, address _participant, uint _amount) public returns (bool) {
+        emit TransferStakingToken(_stakingTokenAddress, _predictionTopicId, _participant, _amount);
     }
     
     function buyStakingToken(address _participant, uint _amount) public returns (bool) {
@@ -50,6 +52,42 @@ contract Gamification {
     }
     
 
+
+    function createPredictionTopic(
+        uint _predictionTopicId, 
+        string memory _title,
+        string memory _description,
+        uint _stakingPrice,
+        address _creator
+    ) 
+        public returns (bool res) 
+    {
+        // in progress
+        predictionTopicId++;
+    }
+
+
+    function registerParticipant(
+        address _participantAddr,
+        uint _stakingTokenBalance
+    ) 
+        public returns (bool res) 
+    {
+        // in progress
+        participantId++;
+    }
+
+
+    function votingToPredictionTopic(
+        uint _predictionTopicId, 
+        address _participantAddr, 
+        uint _stakingTokenBalance
+    )
+        public returns (bool res) 
+    {        
+        require (_stakingTokenBalance > 0, "You have to buy staking token");  // Check that whether participant who bought staking token already or not
+        // in progress      
+    }
 
 }
 
