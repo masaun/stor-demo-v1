@@ -55,6 +55,12 @@ class App extends Component {
 
       productions: [],
 
+      /////// Remaining Data
+      time_stamp_of_generation: 'March 28 2019 08:47:17 AM +UTC',
+      generation_sourse_type: 'Solor',
+      co2_emissions_tracking: '125',
+ 
+
       /////// Sample for displaying list（reference from rimble-ui document）
       values: [
         { transactionHash: '0xeb...cc0', ethAmount: '0.10 ETH' },
@@ -568,26 +574,6 @@ class App extends Component {
         <div className={styles.contracts}>
           <h1>List Contract is good to Go!</h1>
           <div className={styles.widgets}>
-            <p>Test</p>
-          </div>
-        </div>
-      )}
-      </div>
-    );
-  }
-
-  renderAsset() {
-    const { production_address, production_town } = this.state;
-
-    return (
-      <div className={styles.wrapper}>
-      {!this.state.web3 && this.renderLoader()}
-      {this.state.web3 && !this.state.asset && (
-        this.renderDeployCheck('asset')
-      )}
-      {this.state.web3 && this.state.asset && (
-        <div className={styles.contracts}>
-          <div className={styles.widgets}>
             <Card width={'420px'} bg="primary">
               <p>Address of Production</p>
               <input type="text" value={this.state.valueOfProductionAddress} onChange={this.handleInputProductionAddress} />
@@ -598,43 +584,8 @@ class App extends Component {
               <Button onClick={this.sendProductionCreate}>SEND（Production Register）</Button>
             </Card>
 
+            <br />
 
-            <Card width={'420px'} bg="primary">
-              <p>Address of Production</p>
-              <input type="text" value={this.state.valueOfProductionAddress} onChange={this.handleInputProductionAddress} />
-
-              <p>Town of Production</p>
-              <input type="text" value={this.state.valueOfProductionTown} onChange={this.handleInputProductionTown} />
-
-              <p>Image of Production</p>
-              <input type = "file" onChange={ this.captureFile } />
-
-              <Button onClick={this.sendProductionCreate}>SEND（Production Register）</Button>
-            </Card>
-
-            <Table>
-              <thead>
-                <tr>
-                  <th>
-                    Address of Production
-                  </th>
-                  <th>
-                    Town of Production
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.productions.map( (productions, i) => {
-                  return <tr key={i}>
-                           <td>{ productions.production_address }</td>
-                           <td>{ productions.production_town }</td>
-                         </tr>
-                })}
-              </tbody>
-            </Table>
-
-            <br/>
-            <br/>
 
             <Table>
               <thead>
@@ -737,10 +688,73 @@ class App extends Component {
               </Table>
             </Grid>
 
-
-            <div id='map'></div>
-
           </div>
+        </div>
+      )}
+      </div>
+    );
+  }
+
+  renderAsset() {
+    const { production_address, production_town, time_stamp_of_generation, generation_sourse_type, co2_emissions_tracking } = this.state;
+
+    return (
+      <div className={styles.wrapper}>
+      {!this.state.web3 && this.renderLoader()}
+      {this.state.web3 && !this.state.asset && (
+        this.renderDeployCheck('asset')
+      )}
+      {this.state.web3 && this.state.asset && (
+        <div style={{ display: "inline-flex" }}>
+          <Card width={'250px'} bg="primary">
+            <p>Location / Address of Production</p>
+            <input type="text" value={this.state.valueOfProductionAddress} onChange={this.handleInputProductionAddress} />
+
+            <p>Location / Town of Production</p>
+            <input type="text" value={this.state.valueOfProductionTown} onChange={this.handleInputProductionTown} />
+
+            <p>Image of Production</p>
+            <input type = "file" onChange={ this.captureFile } />
+
+            <Button onClick={this.sendProductionCreate}>Production Register</Button>
+          </Card>
+
+          <span style={{ padding: "20px" }}></span>
+
+          <Card width={'1100px'} bg="primary">
+          <Table>
+              <thead>
+                <tr>
+                  <th>
+                    Location / Address of Production
+                  </th>
+                  <th>
+                    Location / Town of Production
+                  </th>             
+                  <th>
+                    Time-stamp of generation
+                  </th>
+                  <th>
+                    Generation source type
+                  </th>
+                  <th>
+                    CO2 Emissions tracking
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.productions.map( (productions, i) => {
+                  return <tr key={i}>
+                           <td>{ productions.production_address }</td>
+                           <td>{ productions.production_town }</td>
+                           <td>{ time_stamp_of_generation }</td>
+                           <td>{ generation_sourse_type }</td>
+                           <td>{ co2_emissions_tracking }</td>
+                         </tr>
+                })}
+              </tbody>
+            </Table>
+          </Card>
         </div>
       )}
       </div>
@@ -773,63 +787,55 @@ class App extends Component {
         this.renderDeployCheck('asset')
       )}
       {this.state.web3 && this.state.asset && (
-        <div className={styles.contracts}>
-          <div className={styles.widgets}>
+        <div style={{ display: "inline-flex" }}>
+          <Card width={'400px'} bg="primary">
+            <h1>Traceability</h1>
+            <h2>100 kw/h</h2>
 
-            {/* <div id='map'></div> */}
+            <br />
 
-            <div style={{ display: "inline-flex" }}>
-              <Card>
-                <h1>Traceability</h1>
-                <h2>100 kw/h</h2>
+            <hr />
 
-                <br />
+            <br />
 
-                <hr />
+            <h1>Today</h1>
+            <p>Percentage that depend on type of renewable energy which is generated by the power of Wind, Water, Solar, Geothermal（%）</p>
 
-                <br />
+            <PieChart
+              data={[
+                { title: 'Wind Power', value: 25, color: '#E38627' },
+                { title: 'Water Power', value: 20, color: '#C13C37' },
+                { title: 'Solar Power', value: 15, color: '#6A2135' },
+                { title: 'Geothermal Power', value: 40, color: '#00FF00' },
+              ]}
+              style={{ height: '400px' }}  // Size of pie chart
+              lineWidth={15}
+              paddingAngle={5}
+              lengthAngle={-360}
 
-                <h1>Today</h1>
-                <p>Percentage that depend on type of renewable energy which is generated by the power of Wind, Water, Solar, Geothermal（%）</p>
+              label
+              labelStyle={{
+                //fontSize: '25px',
+                fontSize: '5px',
+                fontFamily: 'sans-serif'
+              }}
+              //labelPosition={0}
+              labelPosition={60}
 
-                <PieChart
-                  data={[
-                    { title: 'Wind Power', value: 25, color: '#E38627' },
-                    { title: 'Water Power', value: 20, color: '#C13C37' },
-                    { title: 'Solar Power', value: 15, color: '#6A2135' },
-                    { title: 'Geothermal Power', value: 40, color: '#00FF00' },
-                  ]}
-                  style={{ height: '400px' }}  // Size of pie chart
-                  lineWidth={15}
-                  paddingAngle={5}
-                  lengthAngle={-360}
+              animate // can use animation
+            />
+          </Card>
 
-                  label
-                  labelStyle={{
-                    //fontSize: '25px',
-                    fontSize: '5px',
-                    fontFamily: 'sans-serif'
-                  }}
-                  //labelPosition={0}
-                  labelPosition={60}
+          <span style={{ padding: "20px" }}></span>
 
-                  animate // can use animation
-                />
-              </Card>
-
-              <span style={{ padding: "20px" }}></span>
-
-              <Card>
-                <div style={{ textAlign: "left" }}>
-                  <div>Latitude: { this.state.latitude }</div>
-                  <div>Longitude: { this.state.longitude }</div>
-                </div>
-
-                <SimpleMap />
-              </Card>
+          <Card  width={'800px'} bg="primary">
+            <div style={{ textAlign: "left" }}>
+              <div>Latitude: { this.state.latitude }</div>
+              <div>Longitude: { this.state.longitude }</div>
             </div>
 
-          </div>
+            <SimpleMap />
+          </Card>
         </div>
       )}
       </div>
