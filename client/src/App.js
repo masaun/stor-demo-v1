@@ -817,6 +817,8 @@ class App extends Component {
                 />
               </Card>
 
+              <span style={{ padding: "20px" }}></span>
+
               <Card>
                 <div style={{ textAlign: "left" }}>
                   <div>Latitude: { this.state.latitude }</div>
