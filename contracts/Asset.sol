@@ -144,4 +144,15 @@ contract Asset is Ownable, ProductionOwnable {
     }
 
 
+
+    ////////////////////////////////////////////////////////////////////////////
+    /// Get real-time data from SmartMeter (it does test through ChainLink）
+    ////////////////////////////////////////////////////////////////////////////
+    function readSmartMeter() public returns (bool res) {
+        // In progress
+    }
+    
+
+
+
 }
