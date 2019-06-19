@@ -778,9 +778,6 @@ class App extends Component {
 
             {/* <div id='map'></div> */}
 
-          <div>Latitude: { this.state.latitude }</div>
-          <div>Longitude: { this.state.longitude }</div>
-
             <div style={{ display: "inline-flex" }}>
               <Card>
                 <h1>Traceability</h1>
@@ -821,6 +818,11 @@ class App extends Component {
               </Card>
 
               <Card>
+                <div style={{ textAlign: "left" }}>
+                  <div>Latitude: { this.state.latitude }</div>
+                  <div>Longitude: { this.state.longitude }</div>
+                </div>
+
                 <SimpleMap />
               </Card>
             </div>
