@@ -7,18 +7,21 @@ contract('Asset', (accounts) => {
         // Value of argument for test
         const _addr = "0x8c43b7f99eea463ff39d839731a87c02abc0b591";
         const _town = "City of Madrid";
+        const _generationSourseType = "Solor";
 
         // Execute function
         const contract = await new web3.eth.Contract(Asset.abi, Asset.address);
-        const response = await contract.methods.productionRegister(_addr, _town).send({ from: accounts[0], gas: 3000000 });
+        const response = await contract.methods.productionRegister(_addr, _town, _generationSourseType).send({ from: accounts[0], gas: 3000000 });
 
         // Debug
         console.log('=== response of productionRegister function ===', response);  // Result: 
 
 
         const event = response.events.ProductionRegister.returnValues.addr;
-
         console.log('=== Check event value of addr of ProductionRegister function ===', event);  // Result: OK
+
+        const timestamp = response.events.ProductionRegister.returnValues.generationTimestamp;
+        console.log('=== Check event value of generationTimestamp of ProductionRegister function ===', timestamp);
 
     })
 
