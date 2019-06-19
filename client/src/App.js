@@ -568,26 +568,6 @@ class App extends Component {
         <div className={styles.contracts}>
           <h1>List Contract is good to Go!</h1>
           <div className={styles.widgets}>
-            <p>Test</p>
-          </div>
-        </div>
-      )}
-      </div>
-    );
-  }
-
-  renderAsset() {
-    const { production_address, production_town } = this.state;
-
-    return (
-      <div className={styles.wrapper}>
-      {!this.state.web3 && this.renderLoader()}
-      {this.state.web3 && !this.state.asset && (
-        this.renderDeployCheck('asset')
-      )}
-      {this.state.web3 && this.state.asset && (
-        <div className={styles.contracts}>
-          <div className={styles.widgets}>
             <Card width={'420px'} bg="primary">
               <p>Address of Production</p>
               <input type="text" value={this.state.valueOfProductionAddress} onChange={this.handleInputProductionAddress} />
@@ -598,43 +578,8 @@ class App extends Component {
               <Button onClick={this.sendProductionCreate}>SEND（Production Register）</Button>
             </Card>
 
+            <br />
 
-            <Card width={'420px'} bg="primary">
-              <p>Address of Production</p>
-              <input type="text" value={this.state.valueOfProductionAddress} onChange={this.handleInputProductionAddress} />
-
-              <p>Town of Production</p>
-              <input type="text" value={this.state.valueOfProductionTown} onChange={this.handleInputProductionTown} />
-
-              <p>Image of Production</p>
-              <input type = "file" onChange={ this.captureFile } />
-
-              <Button onClick={this.sendProductionCreate}>SEND（Production Register）</Button>
-            </Card>
-
-            <Table>
-              <thead>
-                <tr>
-                  <th>
-                    Address of Production
-                  </th>
-                  <th>
-                    Town of Production
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.productions.map( (productions, i) => {
-                  return <tr key={i}>
-                           <td>{ productions.production_address }</td>
-                           <td>{ productions.production_town }</td>
-                         </tr>
-                })}
-              </tbody>
-            </Table>
-
-            <br/>
-            <br/>
 
             <Table>
               <thead>
@@ -737,8 +682,59 @@ class App extends Component {
               </Table>
             </Grid>
 
+          </div>
+        </div>
+      )}
+      </div>
+    );
+  }
 
-            <div id='map'></div>
+  renderAsset() {
+    const { production_address, production_town } = this.state;
+
+    return (
+      <div className={styles.wrapper}>
+      {!this.state.web3 && this.renderLoader()}
+      {this.state.web3 && !this.state.asset && (
+        this.renderDeployCheck('asset')
+      )}
+      {this.state.web3 && this.state.asset && (
+        <div className={styles.contracts}>
+          <div className={styles.widgets}>
+
+            <Card width={'420px'} bg="primary">
+              <p>Address of Production</p>
+              <input type="text" value={this.state.valueOfProductionAddress} onChange={this.handleInputProductionAddress} />
+
+              <p>Town of Production</p>
+              <input type="text" value={this.state.valueOfProductionTown} onChange={this.handleInputProductionTown} />
+
+              <p>Image of Production</p>
+              <input type = "file" onChange={ this.captureFile } />
+
+              <Button onClick={this.sendProductionCreate}>SEND（Production Register）</Button>
+            </Card>
+
+            <Table>
+              <thead>
+                <tr>
+                  <th>
+                    Address of Production
+                  </th>
+                  <th>
+                    Town of Production
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.productions.map( (productions, i) => {
+                  return <tr key={i}>
+                           <td>{ productions.production_address }</td>
+                           <td>{ productions.production_town }</td>
+                         </tr>
+                })}
+              </tbody>
+            </Table>
 
           </div>
         </div>
