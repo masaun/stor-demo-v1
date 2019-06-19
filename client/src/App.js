@@ -705,23 +705,24 @@ class App extends Component {
         this.renderDeployCheck('asset')
       )}
       {this.state.web3 && this.state.asset && (
-        <div className={styles.contracts}>
-          <div className={styles.widgets}>
+        <div style={{ display: "inline-flex" }}>
+          <Card width={'250px'} bg="primary">
+            <p>Location / Address of Production</p>
+            <input type="text" value={this.state.valueOfProductionAddress} onChange={this.handleInputProductionAddress} />
 
-            <Card width={'420px'} bg="primary">
-              <p>Location / Address of Production</p>
-              <input type="text" value={this.state.valueOfProductionAddress} onChange={this.handleInputProductionAddress} />
+            <p>Location / Town of Production</p>
+            <input type="text" value={this.state.valueOfProductionTown} onChange={this.handleInputProductionTown} />
 
-              <p>Location / Town of Production</p>
-              <input type="text" value={this.state.valueOfProductionTown} onChange={this.handleInputProductionTown} />
+            <p>Image of Production</p>
+            <input type = "file" onChange={ this.captureFile } />
 
-              <p>Image of Production</p>
-              <input type = "file" onChange={ this.captureFile } />
+            <Button onClick={this.sendProductionCreate}>Production Register</Button>
+          </Card>
 
-              <Button onClick={this.sendProductionCreate}>SEND（Production Register）</Button>
-            </Card>
+          <span style={{ padding: "20px" }}></span>
 
-            <Table>
+          <Card width={'1100px'} bg="primary">
+          <Table>
               <thead>
                 <tr>
                   <th>
@@ -753,8 +754,7 @@ class App extends Component {
                 })}
               </tbody>
             </Table>
-
-          </div>
+          </Card>
         </div>
       )}
       </div>
