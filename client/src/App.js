@@ -55,6 +55,12 @@ class App extends Component {
 
       productions: [],
 
+      /////// Remaining Data
+      time_stamp_of_generation: 'March 28 2019 08:47:17 AM +UTC',
+      generation_sourse_type: 'Solor',
+      co2_emissions_tracking: '125',
+ 
+
       /////// Sample for displaying list（reference from rimble-ui document）
       values: [
         { transactionHash: '0xeb...cc0', ethAmount: '0.10 ETH' },
@@ -690,7 +696,7 @@ class App extends Component {
   }
 
   renderAsset() {
-    const { production_address, production_town } = this.state;
+    const { production_address, production_town, time_stamp_of_generation, generation_sourse_type, co2_emissions_tracking } = this.state;
 
     return (
       <div className={styles.wrapper}>
@@ -703,10 +709,10 @@ class App extends Component {
           <div className={styles.widgets}>
 
             <Card width={'420px'} bg="primary">
-              <p>Address of Production</p>
+              <p>Location / Address of Production</p>
               <input type="text" value={this.state.valueOfProductionAddress} onChange={this.handleInputProductionAddress} />
 
-              <p>Town of Production</p>
+              <p>Location / Town of Production</p>
               <input type="text" value={this.state.valueOfProductionTown} onChange={this.handleInputProductionTown} />
 
               <p>Image of Production</p>
@@ -719,10 +725,19 @@ class App extends Component {
               <thead>
                 <tr>
                   <th>
-                    Address of Production
+                    Location / Address of Production
                   </th>
                   <th>
-                    Town of Production
+                    Location / Town of Production
+                  </th>             
+                  <th>
+                    Time-stamp of generation
+                  </th>
+                  <th>
+                    Generation source type
+                  </th>
+                  <th>
+                    CO2 Emissions tracking
                   </th>
                 </tr>
               </thead>
@@ -731,6 +746,9 @@ class App extends Component {
                   return <tr key={i}>
                            <td>{ productions.production_address }</td>
                            <td>{ productions.production_town }</td>
+                           <td>{ time_stamp_of_generation }</td>
+                           <td>{ generation_sourse_type }</td>
+                           <td>{ co2_emissions_tracking }</td>
                          </tr>
                 })}
               </tbody>
