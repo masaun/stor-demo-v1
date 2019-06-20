@@ -4,10 +4,12 @@ import "openzeppelin-solidity-2.1.1/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity-2.1.1/contracts/ownership/Ownable.sol";
 import "./ProductionOwnable.sol";
 
+import "chainlink/contracts/ChainlinkClient.sol";
 
 
 
-contract Asset is Ownable, ProductionOwnable {
+
+contract Asset is Ownable, ProductionOwnable, ChainlinkClient {
 
     uint public _productionId; 
 
@@ -41,7 +43,11 @@ contract Asset is Ownable, ProductionOwnable {
 
 
     constructor () public {
-        // Put something
+        // [ChainLink]：Set the address for the LINK token for the network.
+        setChainlinkToken(0x20fE562d797A42Dcb3399062AE9546cd06f63280);
+
+        // [ChainLink]：Set the address of the oracle to create requests to.
+        setChainlinkOracle(0xc99B3D447826532722E41bc36e644ba3479E4365);
     }
 
 
