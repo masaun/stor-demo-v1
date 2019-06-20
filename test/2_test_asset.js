@@ -15,11 +15,11 @@ contract('Asset', (accounts) => {
         // Debug
         console.log('=== response of productionRegister function ===', response);  // Result: 
 
-
         const event = response.events.ProductionRegister.returnValues.addr;
-
         console.log('=== Check event value of addr of ProductionRegister function ===', event);  // Result: OK
 
+        const timestamp = response.events.ProductionRegister.returnValues.generationTimestamp;
+        console.log('=== Check event value of generationTimestamp of ProductionRegister function ===', timestamp);
     })
 
 
