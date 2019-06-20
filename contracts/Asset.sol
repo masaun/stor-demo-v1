@@ -17,6 +17,8 @@ contract Asset is Ownable, ProductionOwnable {
         string town;
         mapping (string => Coordinate) coordinates;  // Using town name as key
         mapping (uint => IpfsHash) ipfsHashes;
+        uint generationTimestamp;
+        string generationSourseType;
     }
     Production[] public productions;
 
@@ -32,8 +34,8 @@ contract Asset is Ownable, ProductionOwnable {
     }
     
 
-
-    event ProductionRegister(uint indexed id, address indexed addr, string town);
+    event ProductionRegister(uint indexed id, address indexed addr, string town, uint generationTimestamp, string generationSourseType);
+    // event ProductionRegister(uint indexed id, address indexed addr, string town);
     event ProductionCoordinateRegister(string town, string latitude, string longitude);
     event ProductionRegisterIpfsHash(string indexed returnedIpfsHash);
 
@@ -43,23 +45,32 @@ contract Asset is Ownable, ProductionOwnable {
     }
 
 
-    function productionRegister(address _addr, string memory _town) public returns (uint, address, string memory) {
+    function productionRegister(
+        address _addr, 
+        string memory _town, 
+        string memory _generationSourseType
+    ) public returns (uint, address, string memory, uint, string memory) 
+    {
         
         // This constant value below is for temporary test
-        string memory _latitude = '52.5537493';
-        string memory _longitude = '13.2920935';
+        //string memory _latitude = '52.5537493';
+        //string memory _longitude = '13.2920935';
 
         Production memory production;
         production.id = _productionId;
         production.addr = _addr;
         production.town = _town;
+        production.generationTimestamp = block.timestamp;
+        production.generationSourseType = _generationSourseType;
 
         productions.push(production);
 
-        emit ProductionRegister(production.id, _addr, _town);
+        emit ProductionRegister(production.id, _addr, _town, block.timestamp, _generationSourseType);
+        //emit ProductionRegister(production.id, _addr, _town);
         _productionId++;
 
-        return (production.id, _addr, _town);
+        return (production.id, _addr, _town, block.timestamp, _generationSourseType);
+        //return (production.id, _addr, _town);
     }
 
 

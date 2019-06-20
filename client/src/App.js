@@ -52,12 +52,15 @@ class App extends Component {
       production_town: '',
       valueOfProductionAddress: '',
       valueOfProductionTown: '',
+      timestamp_of_generation: 0,
+      generation_sourse_type: '',
+      valueOfGenerationSourseType: '',
 
       productions: [],
 
       /////// Remaining Data
-      time_stamp_of_generation: 'March 28 2019 08:47:17 AM +UTC',
-      generation_sourse_type: 'Solor',
+      // time_stamp_of_generation: 'March 28 2019 08:47:17 AM +UTC',
+      // generation_sourse_type: 'Solor',
       co2_emissions_tracking: '125',
  
 
@@ -85,6 +88,7 @@ class App extends Component {
 
     this.handleInputProductionAddress = this.handleInputProductionAddress.bind(this);
     this.handleInputProductionTown = this.handleInputProductionTown.bind(this);
+    this.handleInputGenerationSourseType = this.handleInputGenerationSourseType.bind(this);
     this.sendProductionCreate = this.sendProductionCreate.bind(this);
   }
 
@@ -105,26 +109,39 @@ class App extends Component {
     this.setState({ valueOfProductionTown: value });
   }
 
-  sendProductionCreate = async (event) => {
-    const { accounts, asset, production_address, production_town, valueOfProductionAddress, valueOfProductionTown } = this.state;
+  handleInputGenerationSourseType({ target: { value } }) {
+    this.setState({ valueOfGenerationSourseType: value });
+  }
 
-    const response = await asset.methods.productionRegister(valueOfProductionAddress, valueOfProductionTown).send({ from: accounts[0] })
+  sendProductionCreate = async (event) => {
+    const { accounts, asset, production_address, production_town, timestamp_of_generation, generation_sourse_type, valueOfProductionAddress, valueOfProductionTown,  valueOfGenerationSourseType } = this.state;
+    //const { accounts, asset, production_address, production_town, valueOfProductionAddress, valueOfProductionTown } = this.state;
+
+    const response = await asset.methods.productionRegister(valueOfProductionAddress, valueOfProductionTown,  valueOfGenerationSourseType).send({ from: accounts[0] })
+    //const response = await asset.methods.productionRegister(valueOfProductionAddress, valueOfProductionTown).send({ from: accounts[0] })
 
     console.log('=== response of productionRegister function ===', response);  // Debug
 
     const productionId = response.events.ProductionRegister.returnValues.id;
 
+    const generationTimestamp = response.events.ProductionRegister.returnValues.generationTimestamp;
+
     this.setState({
       production_address: valueOfProductionAddress,
       production_town: valueOfProductionTown,
+      timestamp_of_generation: generationTimestamp,
+      generation_sourse_type: valueOfGenerationSourseType,
       valueOfProductionAddress: '',
       valueOfProductionTown: '',
+      valueOfGenerationSourseType: ''
     });
 
     ///// Add Production List
     this.state.productions.push({
       production_address: valueOfProductionAddress,
       production_town: valueOfProductionTown,
+      timestamp_of_generation: generationTimestamp,
+      generation_sourse_type: valueOfGenerationSourseType,
     });
 
     this.setState({
@@ -696,7 +713,8 @@ class App extends Component {
   }
 
   renderAsset() {
-    const { production_address, production_town, time_stamp_of_generation, generation_sourse_type, co2_emissions_tracking } = this.state;
+    const { production_address, production_town, timestamp_of_generation, generation_sourse_type, co2_emissions_tracking } = this.state;
+    //const { production_address, production_town, time_stamp_of_generation, generation_sourse_type, co2_emissions_tracking } = this.state;
 
     return (
       <div className={styles.wrapper}>
@@ -712,6 +730,9 @@ class App extends Component {
 
             <p>Location / Town of Production</p>
             <input type="text" value={this.state.valueOfProductionTown} onChange={this.handleInputProductionTown} />
+
+            <p>Generation Sourse Type</p>
+            <input type="text" value={this.state.valueOfGenerationSourseType} onChange={this.handleInputGenerationSourseType} />
 
             <p>Image of Production</p>
             <input type = "file" onChange={ this.captureFile } />
@@ -747,8 +768,8 @@ class App extends Component {
                   return <tr key={i}>
                            <td>{ productions.production_address }</td>
                            <td>{ productions.production_town }</td>
-                           <td>{ time_stamp_of_generation }</td>
-                           <td>{ generation_sourse_type }</td>
+                           <td>{ productions.timestamp_of_generation }</td>
+                           <td>{ productions.generation_sourse_type }</td>
                            <td>{ co2_emissions_tracking }</td>
                          </tr>
                 })}
