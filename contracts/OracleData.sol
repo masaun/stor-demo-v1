@@ -1,4 +1,4 @@
-import "chainlink/contracts/ChainlinkClient.sol";
+import "../node_modules/chainlink/contracts/ChainlinkClient.sol";
 
 
 contract OracleData is ChainlinkClient {
