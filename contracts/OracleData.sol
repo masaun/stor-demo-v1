@@ -22,19 +22,25 @@ contract OracleData is ChainlinkClient {
     }
 
 
-    // Creates a Chainlink request with the bytes32 job and returns the requestId
-    function requestEthereumLastMarket() public returns (bytes32 requestId) {
+    // Creates a Chainlink request with the uint256 multiplier job
+    function requestEthereumPrice() 
+        public
+        onlyOwner
+    {
         // newRequest takes a JobID, a callback address, and callback function as input
-        Chainlink.Request memory req = buildChainlinkRequest(GET_BYTES32_JOB, this, this.fulfillEthereumLastMarket.selector);
-        
+        Chainlink.Request memory req = buildChainlinkRequest(UINT256_MUL_JOB, this, this.fulfill.selector);
+
         // Adds a URL with the key "get" to the request parameters
-        req.add("get", "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD");
+        req.add("get", "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD");
         
-        // Adds a dot-delimited JSON path with the key "path" to the request parameters
-        req.add("path", "RAW.ETH.USD.LASTMARKET");
+        // Uses input param (dot-delimited string) as the "path" in the request parameters
+        req.add("path", "USD");
+        
+        // Adds an integer with the key "times" to the request parameters
+        req.addInt("times", 100);
         
         // Sends the request with 1 LINK to the oracle contract
-        requestId = sendChainlinkRequest(req, 1 * LINK);
+        sendChainlinkRequest(req, ORACLE_PAYMENT);
     }
 
 
@@ -46,8 +52,8 @@ contract OracleData is ChainlinkClient {
     {
         currentPrice = _price;
     }
+      
     
-
     // withdrawLink allows the owner to withdraw any extra LINK on the contract
     function withdrawLink()
         public
@@ -56,8 +62,8 @@ contract OracleData is ChainlinkClient {
         LinkTokenInterface link = LinkTokenInterface(chainlinkTokenAddress());
         require(link.transfer(msg.sender, link.balanceOf(address(this))), "Unable to transfer");
     }
-    
-  
+      
+
     modifier onlyOwner() {
         require(msg.sender == owner);
         _;
