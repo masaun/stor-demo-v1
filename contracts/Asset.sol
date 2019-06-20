@@ -36,10 +36,19 @@ contract Asset is Ownable, ProductionOwnable, ChainlinkClient {
     }
     
 
-
     event ProductionRegister(uint indexed id, address indexed addr, string town, uint generationTimestamp, string generationSourseType);
     event ProductionCoordinateRegister(string town, string latitude, string longitude);
     event ProductionRegisterIpfsHash(string indexed returnedIpfsHash);
+
+
+    // [ChainLink]：Creates constants for the JobIDs within the documentation. 
+    bytes32 constant GET_BYTES32_JOB = bytes32("5b280bfed77646d297fdb6e718c7127a");
+    bytes32 constant POST_BYTES32_JOB = bytes32("469e74c5bca740c0addba9ea67eecc51");
+    bytes32 constant INT256_JOB = bytes32("93032b68d4704fa6be2c3ccf7a23c107");
+    bytes32 constant INT256_MUL_JOB = bytes32("e055293deb37425ba83a2d5870c57649");
+    bytes32 constant UINT256_JOB = bytes32("fb5fb7b18921487fb26503cb075abf41");
+    bytes32 constant UINT256_MUL_JOB = bytes32("493610cff14346f786f88ed791ab7704");
+    bytes32 constant BOOL_JOB = bytes32("7ac0b3beac2c448cb2f6b2840d61d31f");
 
 
     constructor () public {
