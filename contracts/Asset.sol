@@ -44,10 +44,10 @@ contract Asset is Ownable, ProductionOwnable, ChainlinkClient {
 
     constructor () public {
         // [ChainLink]：Set the address for the LINK token for the network.
-        setChainlinkToken(0x20fE562d797A42Dcb3399062AE9546cd06f63280);
+        setChainlinkToken(0x20fE562d797A42Dcb3399062AE9546cd06f63280);   // This is contract address of ChainLink which is deployed on Ropsten
 
         // [ChainLink]：Set the address of the oracle to create requests to.
-        setChainlinkOracle(0xc99B3D447826532722E41bc36e644ba3479E4365);
+        setChainlinkOracle(0xc99B3D447826532722E41bc36e644ba3479E4365);   // This is contract address of ChainLink which is deployed on Ropsten
     }
 
 
