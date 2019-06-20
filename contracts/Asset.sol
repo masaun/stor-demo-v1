@@ -1,11 +1,12 @@
 pragma solidity ^0.5.0;
 
+
 //import "openzeppelin-solidity-2.1.1/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity-2.1.1/contracts/ownership/Ownable.sol";
 import "./ProductionOwnable.sol";
 
 
-//import "./OracleData.sol";
+import "./OracleData.sol";
 
 
 contract Asset is Ownable, ProductionOwnable {
@@ -40,9 +41,9 @@ contract Asset is Ownable, ProductionOwnable {
     event ProductionRegisterIpfsHash(string indexed returnedIpfsHash);
 
 
-    constructor () public {
-    //constructor (OracleData _oracleData) public {
-        //oracleData = _oracleData;  // Assing contract address of Oracle which is provided by ChainLink
+    //constructor () public {
+    constructor (OracleData _oracleData) public {
+        oracleData = _oracleData;  // Assing contract address of Oracle which is provided by ChainLink
     }
 
 
