@@ -50,8 +50,11 @@ class App extends Component {
       /////// Value below is for productionCreate function
       production_address: '',
       production_town: '',
+      timestamp_of_generation: 0,
+      generation_sourse_type: '',
       valueOfProductionAddress: '',
       valueOfProductionTown: '',
+
       timestamp_of_generation: 0,
       generation_sourse_type: '',
       valueOfGenerationSourseType: '',
@@ -61,6 +64,8 @@ class App extends Component {
       /////// Remaining Data
       // time_stamp_of_generation: 'March 28 2019 08:47:17 AM +UTC',
       // generation_sourse_type: 'Solor',
+      //time_stamp_of_generation: 'March 28 2019 08:47:17 AM +UTC',
+      //generation_sourse_type: 'Solor',>>>>>>> c16790fb36e8d30fd25f0f67fe51b258e49f5af0
       co2_emissions_tracking: '125',
  
 
@@ -115,10 +120,11 @@ class App extends Component {
 
   sendProductionCreate = async (event) => {
     const { accounts, asset, production_address, production_town, timestamp_of_generation, generation_sourse_type, valueOfProductionAddress, valueOfProductionTown,  valueOfGenerationSourseType } = this.state;
-    //const { accounts, asset, production_address, production_town, valueOfProductionAddress, valueOfProductionTown } = this.state;
 
     const response = await asset.methods.productionRegister(valueOfProductionAddress, valueOfProductionTown,  valueOfGenerationSourseType).send({ from: accounts[0] })
-    //const response = await asset.methods.productionRegister(valueOfProductionAddress, valueOfProductionTown).send({ from: accounts[0] })
+
+
+
 
     console.log('=== response of productionRegister function ===', response);  // Debug
 
@@ -133,7 +139,8 @@ class App extends Component {
       generation_sourse_type: valueOfGenerationSourseType,
       valueOfProductionAddress: '',
       valueOfProductionTown: '',
-      valueOfGenerationSourseType: ''
+      valueOfGenerationSourseType: '',
+      valueOfGenerationSourseType: '',
     });
 
     ///// Add Production List
@@ -714,7 +721,6 @@ class App extends Component {
 
   renderAsset() {
     const { production_address, production_town, timestamp_of_generation, generation_sourse_type, co2_emissions_tracking } = this.state;
-    //const { production_address, production_town, time_stamp_of_generation, generation_sourse_type, co2_emissions_tracking } = this.state;
 
     return (
       <div className={styles.wrapper}>
