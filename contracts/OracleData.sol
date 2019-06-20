@@ -36,4 +36,30 @@ contract OracleData is ChainlinkClient {
         // Sends the request with 1 LINK to the oracle contract
         requestId = sendChainlinkRequest(req, 1 * LINK);
     }
+
+
+    // fulfill receives a uint256 data type
+    function fulfill(bytes32 _requestId, uint256 _price)
+        public
+        // Use recordChainlinkFulfillment to ensure only the requesting oracle can fulfill
+        recordChainlinkFulfillment(_requestId)
+    {
+        currentPrice = _price;
+    }
+    
+
+    // withdrawLink allows the owner to withdraw any extra LINK on the contract
+    function withdrawLink()
+        public
+        onlyOwner
+    {
+        LinkTokenInterface link = LinkTokenInterface(chainlinkTokenAddress());
+        require(link.transfer(msg.sender, link.balanceOf(address(this))), "Unable to transfer");
+    }
+    
+  
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
 }
