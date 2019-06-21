@@ -50,20 +50,18 @@ class App extends Component {
       /////// Value below is for productionCreate function
       production_address: '',
       production_town: '',
-      valueOfProductionAddress: '',
-      valueOfProductionTown: '',
       timestamp_of_generation: 0,
       generation_sourse_type: '',
+      transactionHash: '',   // Tx hash of productionCreate function
+      valueOfProductionAddress: '',
+      valueOfProductionTown: '',
       valueOfGenerationSourseType: '',
 
       productions: [],
 
       /////// Remaining Data
-      // time_stamp_of_generation: 'March 28 2019 08:47:17 AM +UTC',
-      // generation_sourse_type: 'Solor',
       co2_emissions_tracking: '125',
  
-
       /////// Sample for displaying list（reference from rimble-ui document）
       values: [
         { transactionHash: '0xeb...cc0', ethAmount: '0.10 ETH' },
@@ -114,13 +112,15 @@ class App extends Component {
   }
 
   sendProductionCreate = async (event) => {
-    const { accounts, asset, production_address, production_town, timestamp_of_generation, generation_sourse_type, valueOfProductionAddress, valueOfProductionTown,  valueOfGenerationSourseType } = this.state;
+    const { accounts, asset, production_address, production_town, timestamp_of_generation, generation_sourse_type, valueOfProductionAddress, valueOfProductionTown,  valueOfGenerationSourseType, transactionHash } = this.state;
     //const { accounts, asset, production_address, production_town, valueOfProductionAddress, valueOfProductionTown } = this.state;
 
     const response = await asset.methods.productionRegister(valueOfProductionAddress, valueOfProductionTown,  valueOfGenerationSourseType).send({ from: accounts[0] })
     //const response = await asset.methods.productionRegister(valueOfProductionAddress, valueOfProductionTown).send({ from: accounts[0] })
-
     console.log('=== response of productionRegister function ===', response);  // Debug
+
+    const Txhash = response.transactionHash
+    console.log('=== Txhash of productionRegister function ===', Txhash);
 
     const productionId = response.events.ProductionRegister.returnValues.id;
 
@@ -131,9 +131,10 @@ class App extends Component {
       production_town: valueOfProductionTown,
       timestamp_of_generation: generationTimestamp,
       generation_sourse_type: valueOfGenerationSourseType,
+      transactionHash: Txhash,
       valueOfProductionAddress: '',
       valueOfProductionTown: '',
-      valueOfGenerationSourseType: ''
+      valueOfGenerationSourseType: '',
     });
 
     ///// Add Production List
@@ -142,6 +143,7 @@ class App extends Component {
       production_town: valueOfProductionTown,
       timestamp_of_generation: generationTimestamp,
       generation_sourse_type: valueOfGenerationSourseType,
+      transactionHash: Txhash
     });
 
     this.setState({
@@ -713,7 +715,7 @@ class App extends Component {
   }
 
   renderAsset() {
-    const { production_address, production_town, timestamp_of_generation, generation_sourse_type, co2_emissions_tracking } = this.state;
+    const { production_address, production_town, timestamp_of_generation, generation_sourse_type, co2_emissions_tracking, transactionHash } = this.state;
     //const { production_address, production_town, time_stamp_of_generation, generation_sourse_type, co2_emissions_tracking } = this.state;
 
     return (
@@ -747,6 +749,9 @@ class App extends Component {
               <thead>
                 <tr>
                   <th>
+                    Tx Hash
+                  </th>
+                  <th>
                     Location / Address of Production
                   </th>
                   <th>
@@ -766,6 +771,7 @@ class App extends Component {
               <tbody>
                 {this.state.productions.map( (productions, i) => {
                   return <tr key={i}>
+                           <td>{ productions.transactionHash }</td>
                            <td>{ productions.production_address }</td>
                            <td>{ productions.production_town }</td>
                            <td>{ productions.timestamp_of_generation }</td>
