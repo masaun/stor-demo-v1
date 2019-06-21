@@ -42,8 +42,8 @@ contract Asset is Ownable, ProductionOwnable {
 
 
     //constructor () public {
-    constructor (OracleData _oracleData) public {
-        oracleData = _oracleData;  // Assing contract address of Oracle which is provided by ChainLink
+    constructor (address _oracleData) public {
+        _oracleData = _oracleData;  // Assing contract address of Oracle which is provided by ChainLink
     }
 
 

@@ -1,0 +1,52 @@
+{
+  "_from": "chainlink",
+  "_id": "chainlink@0.6.4",
+  "_inBundle": false,
+  "_integrity": "sha512-YyT/3LzQeo1XueU6jRkM7GyjXvl12IHNFpSjvs1V+l42xOsWwxZ7C2MDewu4r/cL8pVgn+SAsswH0qum9Nn8Ew==",
+  "_location": "/chainlink",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "chainlink",
+    "name": "chainlink",
+    "escapedName": "chainlink",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/chainlink/-/chainlink-0.6.4.tgz",
+  "_shasum": "d2c22b24767291c58b2384f60d6fbc3b53dc967d",
+  "_spec": "chainlink",
+  "_where": "/Users/unomasanori/projects/DEMO_MVP/stor/stor-demo-v1_0620/stor-demo-v1",
+  "bundleDependencies": false,
+  "dependencies": {
+    "@ensdomains/ens": "^0.1.1",
+    "link_token": "^1.0.3",
+    "openzeppelin-solidity": "^1.12.0",
+    "solidity-cborutils": "^1.0.4"
+  },
+  "deprecated": false,
+  "description": "To run the solidity-contract tests run `./node_modules/.bin/truffle test`.",
+  "devDependencies": {
+    "truffle": "^5.0.1"
+  },
+  "files": [
+    "contracts",
+    "zos.json",
+    "zos.rinkeby.json",
+    "zos.ropsten.json"
+  ],
+  "license": "MIT",
+  "name": "chainlink",
+  "scripts": {
+    "build": "truffle build",
+    "flatten": "../tools/bin/flatten-testnet",
+    "test": "truffle test"
+  },
+  "version": "0.6.4"
+}

@@ -4,16 +4,28 @@ pragma solidity >0.4.99 <0.6.0;
 import "../node_modules/chainlink/contracts/ChainlinkClient.sol";
 
 
+// OracleData inherits the ChainlinkClient contract to gain the
+// functionality of creating Chainlink requests
 contract OracleData is ChainlinkClient {
  
-    // [ChainLink]：Creates constants for the JobIDs within the documentation. 
-    bytes32 constant GET_BYTES32_JOB = bytes32("5b280bfed77646d297fdb6e718c7127a");
-    bytes32 constant POST_BYTES32_JOB = bytes32("469e74c5bca740c0addba9ea67eecc51");
-    bytes32 constant INT256_JOB = bytes32("93032b68d4704fa6be2c3ccf7a23c107");
-    bytes32 constant INT256_MUL_JOB = bytes32("e055293deb37425ba83a2d5870c57649");
-    bytes32 constant UINT256_JOB = bytes32("fb5fb7b18921487fb26503cb075abf41");
+    // Helper constant for testnets: 1 request = 1 LINK
+    uint256 constant private ORACLE_PAYMENT = 1 * LINK;
+    
+    // Helper constant for the Chainlink uint256 multiplier JobID
     bytes32 constant UINT256_MUL_JOB = bytes32("493610cff14346f786f88ed791ab7704");
-    bytes32 constant BOOL_JOB = bytes32("7ac0b3beac2c448cb2f6b2840d61d31f"); 
+
+    // Stores the answer from the Chainlink oracle
+    uint256 public currentPrice;
+    address public owner;
+
+    // [ChainLink]：Creates constants for the JobIDs within the documentation. 
+    // bytes32 constant GET_BYTES32_JOB = bytes32("5b280bfed77646d297fdb6e718c7127a");
+    // bytes32 constant POST_BYTES32_JOB = bytes32("469e74c5bca740c0addba9ea67eecc51");
+    // bytes32 constant INT256_JOB = bytes32("93032b68d4704fa6be2c3ccf7a23c107");
+    // bytes32 constant INT256_MUL_JOB = bytes32("e055293deb37425ba83a2d5870c57649");
+    // bytes32 constant UINT256_JOB = bytes32("fb5fb7b18921487fb26503cb075abf41");
+    // bytes32 constant UINT256_MUL_JOB = bytes32("493610cff14346f786f88ed791ab7704");
+    // bytes32 constant BOOL_JOB = bytes32("7ac0b3beac2c448cb2f6b2840d61d31f"); 
 
 
     constructor () public {
@@ -31,7 +43,7 @@ contract OracleData is ChainlinkClient {
         onlyOwner
     {
         // newRequest takes a JobID, a callback address, and callback function as input
-        Chainlink.Request memory req = buildChainlinkRequest(UINT256_MUL_JOB, this, this.fulfill.selector);
+        Chainlink.Request memory req = buildChainlinkRequest(UINT256_MUL_JOB, address(this), this.fulfill.selector);
 
         // Adds a URL with the key "get" to the request parameters
         req.add("get", "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD");
