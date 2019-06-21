@@ -121,7 +121,6 @@ contract Asset is Ownable, ProductionOwnable {
 
 
 
-
     ///////////
     /// IPFS
     ///////////
@@ -146,5 +145,21 @@ contract Asset is Ownable, ProductionOwnable {
         return _returnedIpfsHash;
     }
 
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    /// Get real-time data from SmartMeter (it does test through ChainLink）
+    ////////////////////////////////////////////////////////////////////////////
+    function readSmartMeter(
+        uint _assetId, 
+        uint _newMeterRead, 
+        uint _CO2OffsetMeterRead, 
+        bytes32 _lastSmartMeterReadFileHash,
+        uint _timestamp
+    ) public returns (bool res) 
+    {
+        // In progress
+    }
+    
 
 }
