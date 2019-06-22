@@ -151,14 +151,21 @@ contract Asset is Ownable, ProductionOwnable {
     /// Get real-time data from SmartMeter (it does test through ChainLink）
     ////////////////////////////////////////////////////////////////////////////
     function readSmartMeter(
-        uint _assetId, 
+        uint _assetId,
         uint _newMeterRead, 
-        uint _CO2OffsetMeterRead, 
+        //uint _CO2OffsetMeterRead, 
         bytes32 _lastSmartMeterReadFileHash,
-        uint _timestamp
+        uint _timestamp,
+
+        uint _solorPower,        // Quantity of being generated solor power
+        uint _waterPower,        // Quantity of being generated water power
+        uint _windPower,         // Quantity of being generated wind power
+        uint _geothermalPower    // Quantity of being generated geothermal power
     ) public returns (bool res) 
     {
         // In progress
+
+        
     }
     
 
