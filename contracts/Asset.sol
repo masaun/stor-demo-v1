@@ -36,19 +36,19 @@ contract Asset is Ownable, ProductionOwnable {
 
 
 
-    uint public _houseHoldId;
+    uint public _customerId;
 
-    struct Household {
+    struct Customer {
          address addr;
          mapping (address => SmartMeter) smartMeters;
     }
 
     struct SmartMeter {
-        uint solorPower,        // Quantity of being generated solor power
-        uint waterPower,        // Quantity of being generated water power
-        uint windPower,         // Quantity of being generated wind power
-        uint geothermalPower,   // Quantity of being generated geothermal power
-        uint timestamp          // Timestamp of being generated geothermal power
+        uint solorPower;        // Quantity of being generated solor power
+        uint waterPower;        // Quantity of being generated water power
+        uint windPower;         // Quantity of being generated wind power
+        uint geothermalPower;   // Quantity of being generated geothermal power
+        uint timestamp;         // Timestamp of being generated geothermal power
     }
     
 
