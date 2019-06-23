@@ -34,6 +34,26 @@ contract Asset is Ownable, ProductionOwnable {
     }
     
 
+
+
+    uint public _customerId;
+
+    struct Customer {
+         address addr;
+         mapping (address => SmartMeter) smartMeters;
+    }
+
+    struct SmartMeter {
+        uint solorPower;        // Quantity of being generated solor power
+        uint waterPower;        // Quantity of being generated water power
+        uint windPower;         // Quantity of being generated wind power
+        uint geothermalPower;   // Quantity of being generated geothermal power
+        uint timestamp;         // Timestamp of being generated geothermal power
+    }
+    
+
+
+
     event ProductionRegister(uint indexed id, address indexed addr, string town, uint generationTimestamp, string generationSourseType);
     // event ProductionRegister(uint indexed id, address indexed addr, string town);
     event ProductionCoordinateRegister(string town, string latitude, string longitude);
@@ -164,6 +184,7 @@ contract Asset is Ownable, ProductionOwnable {
     ) public returns (bool res) 
     {
         // In progress
+
 
         
     }
