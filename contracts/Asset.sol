@@ -9,6 +9,9 @@ import "./ProductionOwnable.sol";
 
 contract Asset is Ownable, ProductionOwnable {
 
+    ///////////////////////////////////////////////////////////////
+    ////// Production（e.g. Provider and Seller of solor battery）
+    ///////////////////////////////////////////////////////////////
     uint public _productionId; 
 
     struct Production {
@@ -35,15 +38,20 @@ contract Asset is Ownable, ProductionOwnable {
     
 
 
-
+    //////////////////////////////////
+    ////// Customer（e.g. Households）
+    //////////////////////////////////
     uint public _customerId;
+    uint public _smartMeterId;
 
     struct Customer {
          address addr;
-         mapping (address => SmartMeter) smartMeters;
+         mapping (uint => SmartMeter) smartMeters;
     }
+    Customer[] public customers;
 
     struct SmartMeter {
+        uint id;                // This Id is the id of owner of smart meter（customer id） 
         uint solorPower;        // Quantity of being generated solor power
         uint waterPower;        // Quantity of being generated water power
         uint windPower;         // Quantity of being generated wind power
@@ -170,21 +178,24 @@ contract Asset is Ownable, ProductionOwnable {
     ////////////////////////////////////////////////////////////////////////////
     /// Get real-time data from SmartMeter (it does test through ChainLink）
     ////////////////////////////////////////////////////////////////////////////
-    function readSmartMeter(
-        uint _assetId,
-        uint _newMeterRead, 
-        //uint _CO2OffsetMeterRead, 
-        bytes32 _lastSmartMeterReadFileHash,
-        uint _timestamp,
+    function customerRegister () public returns(bool res) {
+        Customer storage customer = customers[_customerId];  // This code which is declare by using storage need for using memory in the smartMeterRegister function below 
+    }
+    
 
+    function smartMeterRegister(
+        uint _customerId,        // Identify customer which use smart meter
+        uint _smartMeterId,
         uint _solorPower,        // Quantity of being generated solor power
         uint _waterPower,        // Quantity of being generated water power
         uint _windPower,         // Quantity of being generated wind power
-        uint _geothermalPower    // Quantity of being generated geothermal power
-    ) public returns (bool res) 
-    {
-        // In progress
+        uint _geothermalPower,   // Quantity of being generated geothermal power
 
+        uint _timestamp
+    ) public returns (bool res) 
+    {   
+        SmartMeter storage meter = customers[_customerId].smartMeters[_smartMeterId];
+        //SmartMeter memory meter = customers[_customerId].smartMeters[_smartMeterId];
 
         
     }
