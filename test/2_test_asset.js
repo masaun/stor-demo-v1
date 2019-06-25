@@ -48,4 +48,18 @@ contract('Asset', (accounts) => {
         // Debug of return value
         console.log('=== Check return value of productionList function ===', response['0']);
     })
+
+
+
+    it('Execute smartMeterRegister function', async () => {
+        const _customerId = 2;
+        const _smartMeterId = 5;
+
+        const contract = await new web3.eth.Contract(Asset.abi, Asset.address);
+        const response = await contract.methods.smartMeterRegister(_customerId, _smartMeterId).send({ from: accounts[0], gas: 3000000 });
+
+        // Debug
+        console.log('=== response of smartMeterRegister function ===', response);  // Result: 
+
+    })
 })

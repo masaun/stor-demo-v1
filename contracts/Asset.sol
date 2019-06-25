@@ -188,20 +188,24 @@ contract Asset is Ownable, ProductionOwnable {
 
     function smartMeterRegister(
         uint _customerId,        // Identify customer which use smart meter
-        uint _smartMeterId,
-        uint _solorPower,        // Quantity of being generated solor power
-        uint _waterPower,        // Quantity of being generated water power
-        uint _windPower,         // Quantity of being generated wind power
-        uint _geothermalPower,   // Quantity of being generated geothermal power
-
-        uint _timestamp
-    ) public returns (bool res) 
+        uint _smartMeterId
+        // uint _solorPower,        // Quantity of being generated solor power
+        // uint _waterPower,        // Quantity of being generated water power
+        // uint _windPower,         // Quantity of being generated wind power
+        // uint _geothermalPower,   // Quantity of being generated geothermal power
+        // uint _timestamp
+    ) public returns (uint, uint, uint, uint, uint, uint) 
     {   
-        SmartMeter storage meter = customers[_customerId].smartMeters[_smartMeterId];
-        //SmartMeter memory meter = customers[_customerId].smartMeters[_smartMeterId];
+        //SmartMeter storage meter = customers[_customerId].smartMeters[_smartMeterId];
+        SmartMeter memory meter = customers[_customerId].smartMeters[_smartMeterId];
+        meter.id = _smartMeterId;
+        meter.solorPower = 0;
+        meter.waterPower = 0;
+        meter.windPower = 0;
+        meter.geothermalPower = 0;
+        meter.timestamp = block.timestamp;
 
-        
+        return (_smartMeterId, 0, 0, 0, 0, block.timestamp);
     }
-    
 
 }
