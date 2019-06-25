@@ -7,10 +7,11 @@ contract('Asset', (accounts) => {
         // Value of argument for test
         const _addr = "0x8c43b7f99eea463ff39d839731a87c02abc0b591";
         const _town = "City of Madrid";
+        const _generationSourseType = "Solor Power";
 
         // Execute function
         const contract = await new web3.eth.Contract(Asset.abi, Asset.address);
-        const response = await contract.methods.productionRegister(_addr, _town).send({ from: accounts[0], gas: 3000000 });
+        const response = await contract.methods.productionRegister(_addr, _town, _generationSourseType).send({ from: accounts[0], gas: 3000000 });
 
         // Debug
         console.log('=== response of productionRegister function ===', response);  // Result: 
@@ -52,10 +53,14 @@ contract('Asset', (accounts) => {
 
 
     it('Execute smartMeterRegister function', async () => {
+        const contract = await new web3.eth.Contract(Asset.abi, Asset.address);
+
+        const _addr = '0x9002aa10300df7970d70f0b74a2d676754575b1c'
+        const response_1 = await contract.methods.customerRegister(_addr).send({ from: accounts[0], gas: 3000000 });
+
         const _customerId = 2;
         const _smartMeterId = 5;
 
-        const contract = await new web3.eth.Contract(Asset.abi, Asset.address);
         const response = await contract.methods.smartMeterRegister(_customerId, _smartMeterId).send({ from: accounts[0], gas: 3000000 });
 
         // Debug

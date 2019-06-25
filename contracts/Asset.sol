@@ -181,8 +181,11 @@ contract Asset is Ownable, ProductionOwnable {
     ////////////////////////////////////////////////////////////////////////////
     /// Get real-time data from SmartMeter (it does test through ChainLink）
     ////////////////////////////////////////////////////////////////////////////
-    function customerRegister () public returns(bool res) {
-        Customer storage customer = customers[_customerId];  // This code which is declare by using storage need for using memory in the smartMeterRegister function below 
+    function customerRegister (address _addr) public returns (address) {
+        Customer storage customer = customers[_customerId];  // This code which is declare by using storage need for using memory in the smartMeterRegister function below
+        customer.addr = _addr;
+
+        return _addr;
     }
     
 
