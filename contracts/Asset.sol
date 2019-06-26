@@ -6,6 +6,9 @@ import "./ProductionOwnable.sol";
 
 
 
+///////////// NFT registerでasset管理
+
+
 
 contract Asset is Ownable, ProductionOwnable {
 
@@ -46,7 +49,7 @@ contract Asset is Ownable, ProductionOwnable {
 
     struct Customer {
          address addr;
-         mapping (uint => SmartMeter) smartMeters;
+         //mapping (uint => SmartMeter) smartMeters;
     }
     Customer[] public customers;
 
@@ -58,7 +61,7 @@ contract Asset is Ownable, ProductionOwnable {
         uint geothermalPower;   // Quantity of being generated geothermal power
         uint timestamp;         // Timestamp of being generated geothermal power
     }
-    
+    SmartMeter[] public smartMeters;
 
 
 
@@ -178,27 +181,36 @@ contract Asset is Ownable, ProductionOwnable {
     ////////////////////////////////////////////////////////////////////////////
     /// Get real-time data from SmartMeter (it does test through ChainLink）
     ////////////////////////////////////////////////////////////////////////////
-    function customerRegister () public returns(bool res) {
-        Customer storage customer = customers[_customerId];  // This code which is declare by using storage need for using memory in the smartMeterRegister function below 
+    function customerRegister (address _addr) public returns (address) {
+        //Customer memory customer = customers[_id];
+        Customer memory customer = customers[_customerId];  // This code which is declare by using storage need for using memory in the smartMeterRegister function below
+        customer.addr = _addr;
+
+        return _addr;
     }
     
 
     function smartMeterRegister(
         uint _customerId,        // Identify customer which use smart meter
-        uint _smartMeterId,
-        uint _solorPower,        // Quantity of being generated solor power
-        uint _waterPower,        // Quantity of being generated water power
-        uint _windPower,         // Quantity of being generated wind power
-        uint _geothermalPower,   // Quantity of being generated geothermal power
-
-        uint _timestamp
-    ) public returns (bool res) 
+        uint _smartMeterId
+        // uint _solorPower,        // Quantity of being generated solor power
+        // uint _waterPower,        // Quantity of being generated water power
+        // uint _windPower,         // Quantity of being generated wind power
+        // uint _geothermalPower,   // Quantity of being generated geothermal power
+        // uint _timestamp
+    ) public returns (uint, uint, uint, uint, uint, uint) 
     {   
-        SmartMeter storage meter = customers[_customerId].smartMeters[_smartMeterId];
+        //SmartMeter storage meter = customers[_customerId].smartMeters[_smartMeterId];
         //SmartMeter memory meter = customers[_customerId].smartMeters[_smartMeterId];
+        SmartMeter memory meter = smartMeters[_smartMeterId];
+        meter.id = _smartMeterId;
+        meter.solorPower = 0;
+        meter.waterPower = 0;
+        meter.windPower = 0;
+        meter.geothermalPower = 0;
+        meter.timestamp = block.timestamp;
 
-        
+        return (_smartMeterId, 0, 0, 0, 0, block.timestamp);
     }
-    
 
 }
