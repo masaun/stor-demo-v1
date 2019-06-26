@@ -49,7 +49,7 @@ contract Asset is Ownable, ProductionOwnable {
 
     struct Customer {
          address addr;
-         mapping (uint => SmartMeter) smartMeters;
+         //mapping (uint => SmartMeter) smartMeters;
     }
     Customer[] public customers;
 
@@ -61,6 +61,7 @@ contract Asset is Ownable, ProductionOwnable {
         uint geothermalPower;   // Quantity of being generated geothermal power
         uint timestamp;         // Timestamp of being generated geothermal power
     }
+    SmartMeter[] public smartMeters;
 
 
 
@@ -181,8 +182,8 @@ contract Asset is Ownable, ProductionOwnable {
     /// Get real-time data from SmartMeter (it does test through ChainLink）
     ////////////////////////////////////////////////////////////////////////////
     function customerRegister (address _addr) public returns (address) {
-        Customer memory customer = customers[_customerId];
-        //Customer storage customer = customers[_customerId];  // This code which is declare by using storage need for using memory in the smartMeterRegister function below
+        //Customer memory customer = customers[_id];
+        Customer memory customer = customers[_customerId];  // This code which is declare by using storage need for using memory in the smartMeterRegister function below
         customer.addr = _addr;
 
         return _addr;
@@ -200,7 +201,8 @@ contract Asset is Ownable, ProductionOwnable {
     ) public returns (uint, uint, uint, uint, uint, uint) 
     {   
         //SmartMeter storage meter = customers[_customerId].smartMeters[_smartMeterId];
-        SmartMeter memory meter = customers[_customerId].smartMeters[_smartMeterId];
+        //SmartMeter memory meter = customers[_customerId].smartMeters[_smartMeterId];
+        SmartMeter memory meter = smartMeters[_smartMeterId];
         meter.id = _smartMeterId;
         meter.solorPower = 0;
         meter.waterPower = 0;
