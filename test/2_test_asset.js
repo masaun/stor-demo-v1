@@ -57,6 +57,8 @@ contract('Asset', (accounts) => {
 
         const _addr = '0x9002aa10300df7970d70f0b74a2d676754575b1c'
         const response_1 = await contract.methods.customerRegister(_addr).send({ from: accounts[0], gas: 3000000 });
+        console.log('=== response of customerRegister function ===', response_1);  // Result:         
+
 
         const _customerId = 2;
         const _smartMeterId = 5;

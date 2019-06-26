@@ -81,14 +81,25 @@ class App extends Component {
 
       /////// Geo data（Coordinates）
       latitude: null,
-      longitude: null
+      longitude: null,
+
+
+      /////// Customer
+      customer_address: '',
+      valueOfCustomerAddress: '',
+
+      customers: [],
     };
 
     this.handleInputProductionAddress = this.handleInputProductionAddress.bind(this);
     this.handleInputProductionTown = this.handleInputProductionTown.bind(this);
     this.handleInputGenerationSourseType = this.handleInputGenerationSourseType.bind(this);
     this.sendProductionCreate = this.sendProductionCreate.bind(this);
+
+    this.handleInputCustomerAddress = this.handleInputCustomerAddress.bind(this);
+    this.sendCustomerRegister = this.sendCustomerRegister.bind(this);
   }
+
 
   // state = {
   //   storageValue: 0,
@@ -169,7 +180,6 @@ class App extends Component {
     })
 
   
-
     //////////////////////////////////////////////
     /// Save data
     //////////////////////////////////////////////
@@ -201,11 +211,6 @@ class App extends Component {
     });
 
   }
-
-
-
-
-
 
 
 
@@ -277,6 +282,39 @@ class App extends Component {
       });
     }) //await ipfs.add 
   }; //onSubmit 
+
+
+
+
+  ///////////////////////////////////
+  ///// Customer
+  ///////////////////////////////////
+  handleInputCustomerAddress({ target: { value } }) {
+    this.setState({ valueOfCustomerAddress: value });
+  }
+
+  sendCustomerRegister = async () => {
+    const { accounts, asset, customer_address, valueOfCustomerAddress } = this.state;
+
+    const response = await asset.methods.customerRegister(valueOfCustomerAddress).send({ from: accounts[0] })
+
+    console.log('=== response of customerRegister function ===', response);  // Debug
+
+
+    this.setState({
+      customer_address: valueOfCustomerAddress,
+      valueOfProductionAddress: '',
+    });
+
+    ///// Add Customer List
+    this.state.customers.push({
+      customer_address: valueOfCustomerAddress,
+    });
+
+    this.setState({
+      customers: this.state.customers
+    });
+  }
 
 
 
@@ -604,6 +642,16 @@ class App extends Component {
 
               <Button onClick={this.sendProductionCreate}>SEND（Production Register）</Button>
             </Card>
+
+            <br />
+
+            <Card width={'420px'} bg="primary">
+              <p>Address of Customer</p>
+              <input type="text" value={this.state.valueOfCustomerAddress} onChange={this.handleInputCustomerAddress} />
+
+              <Button onClick={this.sendCustomerRegister}>SEND</Button>
+            </Card>
+
 
             <br />
 

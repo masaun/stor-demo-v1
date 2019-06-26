@@ -61,7 +61,6 @@ contract Asset is Ownable, ProductionOwnable {
         uint geothermalPower;   // Quantity of being generated geothermal power
         uint timestamp;         // Timestamp of being generated geothermal power
     }
-    
 
 
 
@@ -182,7 +181,8 @@ contract Asset is Ownable, ProductionOwnable {
     /// Get real-time data from SmartMeter (it does test through ChainLink）
     ////////////////////////////////////////////////////////////////////////////
     function customerRegister (address _addr) public returns (address) {
-        Customer storage customer = customers[_customerId];  // This code which is declare by using storage need for using memory in the smartMeterRegister function below
+        Customer memory customer = customers[_customerId];
+        //Customer storage customer = customers[_customerId];  // This code which is declare by using storage need for using memory in the smartMeterRegister function below
         customer.addr = _addr;
 
         return _addr;
