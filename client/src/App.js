@@ -795,7 +795,7 @@ class App extends Component {
           <span style={{ padding: "20px" }}></span>
 
           <Card width={'1100px'} bg="primary">
-          <Table>
+            <Table>
               <thead>
                 <tr>
                   <th>
@@ -805,19 +805,10 @@ class App extends Component {
                     IPFS Hash
                   </th>
                   <th>
-                    Location / Address of Production
-                  </th>
-                  <th>
-                    Location / Town of Production
-                  </th>             
-                  <th>
                     Time-stamp of generation
                   </th>
                   <th>
                     Generation source type
-                  </th>
-                  <th>
-                    CO2 Emissions tracking
                   </th>
                 </tr>
               </thead>

@@ -5,11 +5,6 @@ import "openzeppelin-solidity-2.1.1/contracts/ownership/Ownable.sol";
 import "./ProductionOwnable.sol";
 
 
-
-///////////// NFT registerでasset管理
-
-
-
 contract Asset is Ownable, ProductionOwnable {
 
     ///////////////////////////////////////////////////////////////
