@@ -52,23 +52,16 @@ class App extends Component {
       production_town: '',
       timestamp_of_generation: 0,
       generation_sourse_type: '',
+      transactionHash: '',   // Tx hash of productionCreate function
       valueOfProductionAddress: '',
       valueOfProductionTown: '',
-
-      timestamp_of_generation: 0,
-      generation_sourse_type: '',
       valueOfGenerationSourseType: '',
 
       productions: [],
 
       /////// Remaining Data
-      // time_stamp_of_generation: 'March 28 2019 08:47:17 AM +UTC',
-      // generation_sourse_type: 'Solor',
-      //time_stamp_of_generation: 'March 28 2019 08:47:17 AM +UTC',
-      //generation_sourse_type: 'Solor',>>>>>>> c16790fb36e8d30fd25f0f67fe51b258e49f5af0
       co2_emissions_tracking: '125',
  
-
       /////// Sample for displaying list（reference from rimble-ui document）
       values: [
         { transactionHash: '0xeb...cc0', ethAmount: '0.10 ETH' },
@@ -78,7 +71,7 @@ class App extends Component {
       ],
 
       /////// IPFS
-      ipfsHash:null,
+      ipfsHash: '',
       buffer:'',
       ethAddress:'',
       blockNumber:'',
@@ -88,14 +81,25 @@ class App extends Component {
 
       /////// Geo data（Coordinates）
       latitude: null,
-      longitude: null
+      longitude: null,
+
+
+      /////// Customer
+      customer_address: '',
+      valueOfCustomerAddress: '',
+
+      customers: [],
     };
 
     this.handleInputProductionAddress = this.handleInputProductionAddress.bind(this);
     this.handleInputProductionTown = this.handleInputProductionTown.bind(this);
     this.handleInputGenerationSourseType = this.handleInputGenerationSourseType.bind(this);
     this.sendProductionCreate = this.sendProductionCreate.bind(this);
+
+    this.handleInputCustomerAddress = this.handleInputCustomerAddress.bind(this);
+    this.sendCustomerRegister = this.sendCustomerRegister.bind(this);
   }
+
 
   // state = {
   //   storageValue: 0,
@@ -119,42 +123,21 @@ class App extends Component {
   }
 
   sendProductionCreate = async (event) => {
-    const { accounts, asset, production_address, production_town, timestamp_of_generation, generation_sourse_type, valueOfProductionAddress, valueOfProductionTown,  valueOfGenerationSourseType } = this.state;
+    const { accounts, asset, production_address, production_town, timestamp_of_generation, generation_sourse_type, valueOfProductionAddress, valueOfProductionTown,  valueOfGenerationSourseType, transactionHash, ipfsHash } = this.state;
 
+
+    //////////////////////////////////////////////
+    /// Execute productionRegister function
+    //////////////////////////////////////////////
     const response = await asset.methods.productionRegister(valueOfProductionAddress, valueOfProductionTown,  valueOfGenerationSourseType).send({ from: accounts[0] })
-
-
-
-
     console.log('=== response of productionRegister function ===', response);  // Debug
+
+    const Txhash = response.transactionHash
+    console.log('=== Txhash of productionRegister function ===', Txhash);
 
     const productionId = response.events.ProductionRegister.returnValues.id;
 
     const generationTimestamp = response.events.ProductionRegister.returnValues.generationTimestamp;
-
-    this.setState({
-      production_address: valueOfProductionAddress,
-      production_town: valueOfProductionTown,
-      timestamp_of_generation: generationTimestamp,
-      generation_sourse_type: valueOfGenerationSourseType,
-      valueOfProductionAddress: '',
-      valueOfProductionTown: '',
-      valueOfGenerationSourseType: '',
-      valueOfGenerationSourseType: '',
-    });
-
-    ///// Add Production List
-    this.state.productions.push({
-      production_address: valueOfProductionAddress,
-      production_town: valueOfProductionTown,
-      timestamp_of_generation: generationTimestamp,
-      generation_sourse_type: valueOfGenerationSourseType,
-    });
-
-    this.setState({
-      productions: this.state.productions
-    });
-
 
     //////////////////////////////////////////////
     /// Integrate IPFS into sendProductionCreate function
@@ -168,7 +151,7 @@ class App extends Component {
     this.setState({ ethAddress });
 
     //save document to IPFS,return its hash#, and set hash# to state
-    //https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#add 
+    //https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#add
     await ipfs.add(this.state.buffer, (err, ipfsHash) => {
       console.log('=== err ===');
       console.log('=== ipfsHash ===', ipfsHash);
@@ -194,21 +177,40 @@ class App extends Component {
         console.log('=== instance ===', instance)
         console.log('=== event value of returnedIpfsHash ===', instance.events.ProductionRegisterIpfsHash.returnValues.returnedIpfsHash);
       });
-
-
-      // asset.methods.sendHash(this.state.ipfsHash).send({
-      //   from: accounts[0] 
-      // }, (error, transactionHash) => {
-      //   console.log(transactionHash);
-      //   this.setState({ transactionHash });
-      // });
     })
+
+  
+    //////////////////////////////////////////////
+    /// Save data
+    //////////////////////////////////////////////
+
+    this.setState({
+      production_address: valueOfProductionAddress,
+      production_town: valueOfProductionTown,
+      timestamp_of_generation: generationTimestamp,
+      generation_sourse_type: valueOfGenerationSourseType,
+      transactionHash: Txhash,
+      valueOfProductionAddress: '',
+      valueOfProductionTown: '',
+      valueOfGenerationSourseType: '',
+      ipfsHash: this.state.ipfsHash
+    });
+
+    ///// Add Production List
+    this.state.productions.push({
+      production_address: valueOfProductionAddress,
+      production_town: valueOfProductionTown,
+      timestamp_of_generation: generationTimestamp,
+      generation_sourse_type: valueOfGenerationSourseType,
+      transactionHash: Txhash,
+      ipfsHash: this.state.ipfsHash
+    });
+
+    this.setState({
+      productions: this.state.productions
+    });
+
   }
-
-
-
-
-
 
 
 
@@ -280,6 +282,39 @@ class App extends Component {
       });
     }) //await ipfs.add 
   }; //onSubmit 
+
+
+
+
+  ///////////////////////////////////
+  ///// Customer
+  ///////////////////////////////////
+  handleInputCustomerAddress({ target: { value } }) {
+    this.setState({ valueOfCustomerAddress: value });
+  }
+
+  sendCustomerRegister = async () => {
+    const { accounts, asset, customer_address, valueOfCustomerAddress } = this.state;
+
+    const response = await asset.methods.customerRegister(valueOfCustomerAddress).send({ from: accounts[0] })
+
+    console.log('=== response of customerRegister function ===', response);  // Debug
+
+
+    this.setState({
+      customer_address: valueOfCustomerAddress,
+      valueOfProductionAddress: '',
+    });
+
+    ///// Add Customer List
+    this.state.customers.push({
+      customer_address: valueOfCustomerAddress,
+    });
+
+    this.setState({
+      customers: this.state.customers
+    });
+  }
 
 
 
@@ -610,6 +645,16 @@ class App extends Component {
 
             <br />
 
+            <Card width={'420px'} bg="primary">
+              <p>Address of Customer</p>
+              <input type="text" value={this.state.valueOfCustomerAddress} onChange={this.handleInputCustomerAddress} />
+
+              <Button onClick={this.sendCustomerRegister}>SEND</Button>
+            </Card>
+
+
+            <br />
+
 
             <Table>
               <thead>
@@ -720,7 +765,9 @@ class App extends Component {
   }
 
   renderAsset() {
-    const { production_address, production_town, timestamp_of_generation, generation_sourse_type, co2_emissions_tracking } = this.state;
+    const { production_address, production_town, timestamp_of_generation, generation_sourse_type, co2_emissions_tracking, transactionHash, ipfsHash } = this.state;
+    //const { production_address, production_town, time_stamp_of_generation, generation_sourse_type, co2_emissions_tracking } = this.state;
+
 
     return (
       <div className={styles.wrapper}>
@@ -730,48 +777,58 @@ class App extends Component {
       )}
       {this.state.web3 && this.state.asset && (
         <div style={{ display: "inline-flex" }}>
-          <Card width={'250px'} bg="primary">
-            <p>Location / Address of Production</p>
+          <Card width={'200px'} bg="primary">
+            <p style={{ fontSize: '10px'}}>Location / Address of Production</p>
             <input type="text" value={this.state.valueOfProductionAddress} onChange={this.handleInputProductionAddress} />
 
-            <p>Location / Town of Production</p>
+            <p style={{ fontSize: '10px'}}>Location / Town of Production</p>
             <input type="text" value={this.state.valueOfProductionTown} onChange={this.handleInputProductionTown} />
 
-            <p>Generation Sourse Type</p>
+            <p style={{ fontSize: '10px'}}>Generation Sourse Type</p>
             <input type="text" value={this.state.valueOfGenerationSourseType} onChange={this.handleInputGenerationSourseType} />
 
-            <p>Image of Production</p>
+            <p style={{ fontSize: '10px'}}>Image of Production</p>
             <input type = "file" onChange={ this.captureFile } />
 
-            <Button onClick={this.sendProductionCreate}>Production Register</Button>
+            <span style={{ padding: "20px" }}></span>
+
+            <Button onClick={this.sendProductionCreate} style={{ fontSize: '10px'}}>Production Register</Button>
           </Card>
 
           <span style={{ padding: "20px" }}></span>
 
-          <Card width={'1100px'} bg="primary">
-          <Table>
+          <Card width={'800px'} bg="primary">
+            <Table>
               <thead>
                 <tr>
-                  <th>
-                    Location / Address of Production
+                  <th style={{ fontSize: '9px'}}>
+                    Tx Hash
                   </th>
-                  <th>
-                    Location / Town of Production
-                  </th>             
-                  <th>
+                  <th style={{ fontSize: '9px'}}>
+                    IPFS Hash
+                  </th>
+                  <th style={{ fontSize: '9px'}}>
+                    Production Address
+                  </th>
+                  <th style={{ fontSize: '9px'}}>
+                    Production Town
+                  </th>
+                  <th style={{ fontSize: '9px'}}>
                     Time-stamp of generation
                   </th>
-                  <th>
+                  <th style={{ fontSize: '9px'}}>
                     Generation source type
                   </th>
-                  <th>
-                    CO2 Emissions tracking
+                  <th style={{ fontSize: '9px'}}>
+                    CO2 Emissions Tracking
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {this.state.productions.map( (productions, i) => {
                   return <tr key={i}>
+                           <td>{ productions.transactionHash }</td>
+                           <td>{ productions.ipfsHash }</td>                           
                            <td>{ productions.production_address }</td>
                            <td>{ productions.production_town }</td>
                            <td>{ productions.timestamp_of_generation }</td>
