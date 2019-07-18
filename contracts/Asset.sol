@@ -184,7 +184,7 @@ contract Asset is Ownable, ProductionOwnable {
 
         return _addr;
     }
-    
+
 
     function smartMeterRegister(
         uint _customerId,        // Identify customer which use smart meter
