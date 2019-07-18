@@ -125,11 +125,11 @@ class App extends Component {
   sendProductionCreate = async (event) => {
     const { accounts, asset, production_address, production_town, timestamp_of_generation, generation_sourse_type, valueOfProductionAddress, valueOfProductionTown,  valueOfGenerationSourseType, transactionHash, ipfsHash } = this.state;
 
+
     //////////////////////////////////////////////
     /// Execute productionRegister function
     //////////////////////////////////////////////
     const response = await asset.methods.productionRegister(valueOfProductionAddress, valueOfProductionTown,  valueOfGenerationSourseType).send({ from: accounts[0] })
-
     console.log('=== response of productionRegister function ===', response);  // Debug
 
     const Txhash = response.transactionHash
@@ -767,6 +767,7 @@ class App extends Component {
   renderAsset() {
     const { production_address, production_town, timestamp_of_generation, generation_sourse_type, co2_emissions_tracking, transactionHash, ipfsHash } = this.state;
     //const { production_address, production_town, time_stamp_of_generation, generation_sourse_type, co2_emissions_tracking } = this.state;
+
 
     return (
       <div className={styles.wrapper}>

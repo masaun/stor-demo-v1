@@ -9,6 +9,7 @@ contract('Asset', (accounts) => {
         const _town = "City of Madrid";
         const _generationSourseType = "Solor Power";
 
+
         // Execute function
         const contract = await new web3.eth.Contract(Asset.abi, Asset.address);
         const response = await contract.methods.productionRegister(_addr, _town, _generationSourseType).send({ from: accounts[0], gas: 3000000 });
