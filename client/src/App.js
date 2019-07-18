@@ -125,11 +125,11 @@ class App extends Component {
   sendProductionCreate = async (event) => {
     const { accounts, asset, production_address, production_town, timestamp_of_generation, generation_sourse_type, valueOfProductionAddress, valueOfProductionTown,  valueOfGenerationSourseType, transactionHash, ipfsHash } = this.state;
 
+
     //////////////////////////////////////////////
     /// Execute productionRegister function
     //////////////////////////////////////////////
     const response = await asset.methods.productionRegister(valueOfProductionAddress, valueOfProductionTown,  valueOfGenerationSourseType).send({ from: accounts[0] })
-
     console.log('=== response of productionRegister function ===', response);  // Debug
 
     const Txhash = response.transactionHash
@@ -768,6 +768,7 @@ class App extends Component {
     const { production_address, production_town, timestamp_of_generation, generation_sourse_type, co2_emissions_tracking, transactionHash, ipfsHash } = this.state;
     //const { production_address, production_town, time_stamp_of_generation, generation_sourse_type, co2_emissions_tracking } = this.state;
 
+
     return (
       <div className={styles.wrapper}>
       {!this.state.web3 && this.renderLoader()}
@@ -776,48 +777,50 @@ class App extends Component {
       )}
       {this.state.web3 && this.state.asset && (
         <div style={{ display: "inline-flex" }}>
-          <Card width={'250px'} bg="primary">
-            <p>Location / Address of Production</p>
+          <Card width={'200px'} bg="primary">
+            <p style={{ fontSize: '10px'}}>Location / Address of Production</p>
             <input type="text" value={this.state.valueOfProductionAddress} onChange={this.handleInputProductionAddress} />
 
-            <p>Location / Town of Production</p>
+            <p style={{ fontSize: '10px'}}>Location / Town of Production</p>
             <input type="text" value={this.state.valueOfProductionTown} onChange={this.handleInputProductionTown} />
 
-            <p>Generation Sourse Type</p>
+            <p style={{ fontSize: '10px'}}>Generation Sourse Type</p>
             <input type="text" value={this.state.valueOfGenerationSourseType} onChange={this.handleInputGenerationSourseType} />
 
-            <p>Image of Production</p>
+            <p style={{ fontSize: '10px'}}>Image of Production</p>
             <input type = "file" onChange={ this.captureFile } />
 
-            <Button onClick={this.sendProductionCreate}>Production Register</Button>
+            <span style={{ padding: "20px" }}></span>
+
+            <Button onClick={this.sendProductionCreate} style={{ fontSize: '10px'}}>Production Register</Button>
           </Card>
 
           <span style={{ padding: "20px" }}></span>
 
-          <Card width={'1100px'} bg="primary">
-          <Table>
+          <Card width={'800px'} bg="primary">
+            <Table>
               <thead>
                 <tr>
-                  <th>
+                  <th style={{ fontSize: '9px'}}>
                     Tx Hash
                   </th>
-                  <th>
+                  <th style={{ fontSize: '9px'}}>
                     IPFS Hash
                   </th>
-                  <th>
-                    Location / Address of Production
+                  <th style={{ fontSize: '9px'}}>
+                    Production Address
                   </th>
-                  <th>
-                    Location / Town of Production
-                  </th>             
-                  <th>
+                  <th style={{ fontSize: '9px'}}>
+                    Production Town
+                  </th>
+                  <th style={{ fontSize: '9px'}}>
                     Time-stamp of generation
                   </th>
-                  <th>
+                  <th style={{ fontSize: '9px'}}>
                     Generation source type
                   </th>
-                  <th>
-                    CO2 Emissions tracking
+                  <th style={{ fontSize: '9px'}}>
+                    CO2 Emissions Tracking
                   </th>
                 </tr>
               </thead>

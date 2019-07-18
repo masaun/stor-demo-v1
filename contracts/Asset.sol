@@ -1,16 +1,12 @@
 pragma solidity ^0.5.0;
 
-import "openzeppelin-solidity-2.1.1/contracts/math/SafeMath.sol";
+//import "openzeppelin-solidity-2.1.1/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity-2.1.1/contracts/ownership/Ownable.sol";
 import "./ProductionOwnable.sol";
 
 
-
-///////////// NFT registerでasset管理
-
-
-
 contract Asset is Ownable, ProductionOwnable {
+//contract Asset is Ownable, ProductionOwnable, OracleData {
 
     ///////////////////////////////////////////////////////////////
     ////// Production（e.g. Provider and Seller of solor battery）
@@ -27,7 +23,6 @@ contract Asset is Ownable, ProductionOwnable {
         string generationSourseType;
     }
     Production[] public productions;
-
 
     struct Coordinate {
         string latitude;
@@ -66,13 +61,13 @@ contract Asset is Ownable, ProductionOwnable {
 
 
     event ProductionRegister(uint indexed id, address indexed addr, string town, uint generationTimestamp, string generationSourseType);
-    // event ProductionRegister(uint indexed id, address indexed addr, string town);
     event ProductionCoordinateRegister(string town, string latitude, string longitude);
     event ProductionRegisterIpfsHash(string indexed returnedIpfsHash);
 
 
     constructor () public {
-        // Put something
+    //constructor (OracleData _oracleData) public {
+        //oracleData = _oracleData;  // Assing contract address of Oracle which is provided by ChainLink
     }
 
 
@@ -82,7 +77,6 @@ contract Asset is Ownable, ProductionOwnable {
         string memory _generationSourseType
     ) public returns (uint, address, string memory, uint, string memory) 
     {
-        
         // This constant value below is for temporary test
         //string memory _latitude = '52.5537493';
         //string memory _longitude = '13.2920935';
@@ -97,11 +91,10 @@ contract Asset is Ownable, ProductionOwnable {
         productions.push(production);
 
         emit ProductionRegister(production.id, _addr, _town, block.timestamp, _generationSourseType);
-        //emit ProductionRegister(production.id, _addr, _town);
+
         _productionId++;
 
         return (production.id, _addr, _town, block.timestamp, _generationSourseType);
-        //return (production.id, _addr, _town);
     }
 
 
