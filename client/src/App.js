@@ -776,39 +776,50 @@ class App extends Component {
       )}
       {this.state.web3 && this.state.asset && (
         <div style={{ display: "inline-flex" }}>
-          <Card width={'250px'} bg="primary">
-            <p>Location / Address of Production</p>
+          <Card width={'200px'} bg="primary">
+            <p style={{ fontSize: '10px'}}>Location / Address of Production</p>
             <input type="text" value={this.state.valueOfProductionAddress} onChange={this.handleInputProductionAddress} />
 
-            <p>Location / Town of Production</p>
+            <p style={{ fontSize: '10px'}}>Location / Town of Production</p>
             <input type="text" value={this.state.valueOfProductionTown} onChange={this.handleInputProductionTown} />
 
-            <p>Generation Sourse Type</p>
+            <p style={{ fontSize: '10px'}}>Generation Sourse Type</p>
             <input type="text" value={this.state.valueOfGenerationSourseType} onChange={this.handleInputGenerationSourseType} />
 
-            <p>Image of Production</p>
+            <p style={{ fontSize: '10px'}}>Image of Production</p>
             <input type = "file" onChange={ this.captureFile } />
 
-            <Button onClick={this.sendProductionCreate}>Production Register</Button>
+            <span style={{ padding: "20px" }}></span>
+
+            <Button onClick={this.sendProductionCreate} style={{ fontSize: '10px'}}>Production Register</Button>
           </Card>
 
           <span style={{ padding: "20px" }}></span>
 
-          <Card width={'1100px'} bg="primary">
+          <Card width={'800px'} bg="primary">
             <Table>
               <thead>
                 <tr>
-                  <th>
+                  <th style={{ fontSize: '9px'}}>
                     Tx Hash
                   </th>
-                  <th>
+                  <th style={{ fontSize: '9px'}}>
                     IPFS Hash
                   </th>
-                  <th>
+                  <th style={{ fontSize: '9px'}}>
+                    Production Address
+                  </th>
+                  <th style={{ fontSize: '9px'}}>
+                    Production Town
+                  </th>
+                  <th style={{ fontSize: '9px'}}>
                     Time-stamp of generation
                   </th>
-                  <th>
+                  <th style={{ fontSize: '9px'}}>
                     Generation source type
+                  </th>
+                  <th style={{ fontSize: '9px'}}>
+                    CO2 Emissions Tracking
                   </th>
                 </tr>
               </thead>
