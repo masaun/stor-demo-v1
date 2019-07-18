@@ -46,7 +46,9 @@ contract Asset is Ownable, ProductionOwnable {
          address addr;
          //mapping (uint => SmartMeter) smartMeters;
     }
-    Customer[] public customers;
+    mapping (uint => Customer) customers;
+    //Customer[] public customers;
+
 
     struct SmartMeter {
         uint id;                // This Id is the id of owner of smart meter（customer id） 
@@ -56,7 +58,8 @@ contract Asset is Ownable, ProductionOwnable {
         uint geothermalPower;   // Quantity of being generated geothermal power
         uint timestamp;         // Timestamp of being generated geothermal power
     }
-    SmartMeter[] public smartMeters;
+    mapping (uint => SmartMeter) smartMeters;
+    //SmartMeter[] public smartMeters;
 
 
 
