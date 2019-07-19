@@ -213,9 +213,9 @@ contract Asset is Ownable, ProductionOwnable, Oracle {
 
 
     function getDataFromOracle() public returns (bool) {
-        test();        
-        //updatePrice();  // updatePrice function is referenced from Oracle.sol
-        //super.updatePrice();  // updatePrice function is referenced from Oracle.sol
+        test();                 // [Success to call]
+        //updatePrice();        // [Fail to call] updatePrice function is referenced from Oracle.sol
+        //super.updatePrice();  // [Fail to call] updatePrice function is referenced from Oracle.sol
 
         return true;
     }

@@ -140,9 +140,20 @@ contract Oracle is usingOraclize {
     }
 
 
+    // For test
     function test() public returns(string memory) {
         return "Test Return from test function";
     }
+
+
+    function ApiRequest() returns(string memory) {
+        string END_POINT = "https://api.exchangeratesapi.io/latest?symbols=USD";
+
+        // [in progress] Todo： Write codes for API request below
+
+        return response;
+    }
+    
     
 
 }
