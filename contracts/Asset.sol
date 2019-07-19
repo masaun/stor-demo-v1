@@ -3,9 +3,11 @@ pragma solidity ^0.5.0;
 //import "openzeppelin-solidity-2.1.1/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity-2.1.1/contracts/ownership/Ownable.sol";
 import "./ProductionOwnable.sol";
+import "./Oracle/Oracle.sol";
 
 
-contract Asset is Ownable, ProductionOwnable {
+
+contract Asset is Ownable, ProductionOwnable, Oracle {
 //contract Asset is Ownable, ProductionOwnable, OracleData {
 
     ///////////////////////////////////////////////////////////////
@@ -39,14 +41,16 @@ contract Asset is Ownable, ProductionOwnable {
     //////////////////////////////////
     ////// Customer（e.g. Households）
     //////////////////////////////////
-    uint public _customerId;
-    uint public _smartMeterId;
+    uint public customerId;
+    uint public smartMeterId;
 
     struct Customer {
          address addr;
          //mapping (uint => SmartMeter) smartMeters;
     }
-    Customer[] public customers;
+    mapping (uint => Customer) customers;
+    //Customer[] public customers;
+
 
     struct SmartMeter {
         uint id;                // This Id is the id of owner of smart meter（customer id） 
@@ -56,7 +60,8 @@ contract Asset is Ownable, ProductionOwnable {
         uint geothermalPower;   // Quantity of being generated geothermal power
         uint timestamp;         // Timestamp of being generated geothermal power
     }
-    SmartMeter[] public smartMeters;
+    mapping (uint => SmartMeter) smartMeters;
+    //SmartMeter[] public smartMeters;
 
 
 
@@ -174,14 +179,14 @@ contract Asset is Ownable, ProductionOwnable {
     ////////////////////////////////////////////////////////////////////////////
     /// Get real-time data from SmartMeter (it does test through ChainLink）
     ////////////////////////////////////////////////////////////////////////////
-    function customerRegister (address _addr) public returns (address) {
+    function customerRegister (address _addr, uint _customerId) public returns (address) {
         //Customer memory customer = customers[_id];
         Customer memory customer = customers[_customerId];  // This code which is declare by using storage need for using memory in the smartMeterRegister function below
         customer.addr = _addr;
 
         return _addr;
     }
-    
+
 
     function smartMeterRegister(
         uint _customerId,        // Identify customer which use smart meter
@@ -206,4 +211,13 @@ contract Asset is Ownable, ProductionOwnable {
         return (_smartMeterId, 0, 0, 0, 0, block.timestamp);
     }
 
+
+    function getDataFromOracle() public returns (bool) {
+        test();                 // [Success to call]
+        //updatePrice();        // [Fail to call] updatePrice function is referenced from Oracle.sol
+        //super.updatePrice();  // [Fail to call] updatePrice function is referenced from Oracle.sol
+
+        return true;
+    }
+    
 }
