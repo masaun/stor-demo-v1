@@ -323,27 +323,15 @@ class App extends Component {
   ///////////////////////////////////
   ///// Get data from Oracle
   ///////////////////////////////////
-  sendCustomerRegister = async () => {
-    const { accounts, asset, customer_address, valueOfCustomerAddress } = this.state;
+  getOracleData = async () => {
+    const { accounts, asset } = this.state;
 
-    const response = await asset.methods.customerRegister(valueOfCustomerAddress).send({ from: accounts[0] })
+    const response = await asset.methods.getDataFromOracle().send({ from: accounts[0] })
+    console.log('=== response of getDataFromOracle function ===', response);  // Debug
 
-    console.log('=== response of customerRegister function ===', response);  // Debug
-
-
-    this.setState({
-      customer_address: valueOfCustomerAddress,
-      valueOfProductionAddress: '',
-    });
-
-    ///// Add Customer List
-    this.state.customers.push({
-      customer_address: valueOfCustomerAddress,
-    });
-
-    this.setState({
-      customers: this.state.customers
-    });
+    // this.setState({
+    //   data_from_oracle: response,
+    // });
   }
 
 
