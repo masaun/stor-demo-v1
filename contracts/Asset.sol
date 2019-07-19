@@ -41,8 +41,8 @@ contract Asset is Ownable, ProductionOwnable, Oracle {
     //////////////////////////////////
     ////// Customer（e.g. Households）
     //////////////////////////////////
-    uint public _customerId;
-    uint public _smartMeterId;
+    uint public customerId;
+    uint public smartMeterId;
 
     struct Customer {
          address addr;
@@ -179,7 +179,7 @@ contract Asset is Ownable, ProductionOwnable, Oracle {
     ////////////////////////////////////////////////////////////////////////////
     /// Get real-time data from SmartMeter (it does test through ChainLink）
     ////////////////////////////////////////////////////////////////////////////
-    function customerRegister (address _addr) public returns (address) {
+    function customerRegister (address _addr, uint _customerId) public returns (address) {
         //Customer memory customer = customers[_id];
         Customer memory customer = customers[_customerId];  // This code which is declare by using storage need for using memory in the smartMeterRegister function below
         customer.addr = _addr;
