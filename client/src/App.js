@@ -98,6 +98,8 @@ class App extends Component {
 
     this.handleInputCustomerAddress = this.handleInputCustomerAddress.bind(this);
     this.sendCustomerRegister = this.sendCustomerRegister.bind(this);
+
+    this.getOracleData = this.getOracleData.bind(this);
   }
 
 
@@ -293,6 +295,34 @@ class App extends Component {
     this.setState({ valueOfCustomerAddress: value });
   }
 
+  sendCustomerRegister = async () => {
+    const { accounts, asset, customer_address, valueOfCustomerAddress } = this.state;
+
+    const response = await asset.methods.customerRegister(valueOfCustomerAddress).send({ from: accounts[0] })
+
+    console.log('=== response of customerRegister function ===', response);  // Debug
+
+
+    this.setState({
+      customer_address: valueOfCustomerAddress,
+      valueOfProductionAddress: '',
+    });
+
+    ///// Add Customer List
+    this.state.customers.push({
+      customer_address: valueOfCustomerAddress,
+    });
+
+    this.setState({
+      customers: this.state.customers
+    });
+  }
+
+
+
+  ///////////////////////////////////
+  ///// Get data from Oracle
+  ///////////////////////////////////
   sendCustomerRegister = async () => {
     const { accounts, asset, customer_address, valueOfCustomerAddress } = this.state;
 
@@ -633,6 +663,13 @@ class App extends Component {
         <div className={styles.contracts}>
           <h1>List Contract is good to Go!</h1>
           <div className={styles.widgets}>
+            <Card width={'420px'} bg="primary">
+              <p>Get data from Oracle</p>
+              <Button onClick={this.getOracleData}>Get data from Oracle</Button>
+            </Card>
+
+            <br />
+
             <Card width={'420px'} bg="primary">
               <p>Address of Production</p>
               <input type="text" value={this.state.valueOfProductionAddress} onChange={this.handleInputProductionAddress} />

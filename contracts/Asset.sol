@@ -3,9 +3,11 @@ pragma solidity ^0.5.0;
 //import "openzeppelin-solidity-2.1.1/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity-2.1.1/contracts/ownership/Ownable.sol";
 import "./ProductionOwnable.sol";
+import "./Oracle/Oracle.sol";
 
 
-contract Asset is Ownable, ProductionOwnable {
+
+contract Asset is Ownable, ProductionOwnable, Oracle {
 //contract Asset is Ownable, ProductionOwnable, OracleData {
 
     ///////////////////////////////////////////////////////////////
@@ -209,4 +211,11 @@ contract Asset is Ownable, ProductionOwnable {
         return (_smartMeterId, 0, 0, 0, 0, block.timestamp);
     }
 
+
+    function getDataFromOracle() public returns (bool) {
+        super.updatePrice();  // updatePrice function is referenced from Oracle.sol
+
+        return true;
+    }
+    
 }
