@@ -326,7 +326,8 @@ class App extends Component {
   getOracleData = async () => {
     const { accounts, asset } = this.state;
 
-    const response = await asset.methods.getDataFromOracle().send({ from: accounts[0] })
+    //const response = await asset.methods.getDataFromOracle().send({ from: accounts[0] })
+    const response = await asset.methods.test().send({ from: accounts[0] })
     console.log('=== response of getDataFromOracle function ===', response);  // Debug
 
     // this.setState({
@@ -670,13 +671,6 @@ class App extends Component {
           <h1>List Contract is good to Go!</h1>
           <div className={styles.widgets}>
             <Card width={'420px'} bg="primary">
-              <p>Get data from Oracle</p>
-              <Button onClick={this.getOracleData}>Get data from Oracle</Button>
-            </Card>
-
-            <br />
-
-            <Card width={'420px'} bg="primary">
               <p>Address of Production</p>
               <input type="text" value={this.state.valueOfProductionAddress} onChange={this.handleInputProductionAddress} />
 
@@ -820,6 +814,13 @@ class App extends Component {
       )}
       {this.state.web3 && this.state.asset && (
         <div style={{ display: "inline-flex" }}>
+          <Card width={'420px'} bg="primary">
+            <p>Get data from Oracle</p>
+            <Button onClick={this.getOracleData}>Get data from Oracle</Button>
+          </Card>
+
+          <br />
+
           <Card width={'200px'} bg="primary">
             <p style={{ fontSize: '10px'}}>Location / Address of Production</p>
             <input type="text" value={this.state.valueOfProductionAddress} onChange={this.handleInputProductionAddress} />

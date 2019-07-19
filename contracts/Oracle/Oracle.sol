@@ -139,4 +139,10 @@ contract Oracle is usingOraclize {
         return oraclize.cbAddress();
     }
 
+
+    function test() public returns(string memory) {
+        return "Test Return from test function";
+    }
+    
+
 }
