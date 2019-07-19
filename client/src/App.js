@@ -98,6 +98,8 @@ class App extends Component {
 
     this.handleInputCustomerAddress = this.handleInputCustomerAddress.bind(this);
     this.sendCustomerRegister = this.sendCustomerRegister.bind(this);
+
+    this.getOracleData = this.getOracleData.bind(this);
   }
 
 
@@ -318,6 +320,23 @@ class App extends Component {
 
 
 
+  ///////////////////////////////////
+  ///// Get data from Oracle
+  ///////////////////////////////////
+  getOracleData = async () => {
+    const { accounts, asset } = this.state;
+
+    //const response = await asset.methods.getDataFromOracle().send({ from: accounts[0] })
+    const response = await asset.methods.test().send({ from: accounts[0] })
+    console.log('=== response of getDataFromOracle function ===', response);  // Debug
+
+    // this.setState({
+    //   data_from_oracle: response,
+    // });
+  }
+
+
+
 
   //////////////////////////////////// 
   ///// Ganache
@@ -337,12 +356,14 @@ class App extends Component {
     let Counter = {};
     let Wallet = {};
     let List = {};
-    let Asset = {};  // To contract of Asset
+    let Asset = {};   // To contract of Asset
+    let Oracle = {};  // To contract of Oracle
     try {
       Counter = require("../../build/contracts/Counter.json");
       Wallet = require("../../build/contracts/Wallet.json");
       List = require("../../build/contracts/List.json");    // Load ABI of contract of List
       Asset = require("../../build/contracts/Asset.json");  // Load ABI of contract of Asset
+      Oracle = require("../../build/contracts/Oracle.json");  // Load ABI of contract of Oracle
     } catch (e) {
       console.log(e);
     }
@@ -365,10 +386,13 @@ class App extends Component {
         const isMetaMask = web3.currentProvider.isMetaMask;
         let balance = accounts.length > 0 ? await web3.eth.getBalance(accounts[0]): web3.utils.toWei('0');
         balance = web3.utils.fromWei(balance, 'ether');
+
         let instance = null;
         let instanceWallet = null;
         let instanceList = null;
-        let instanceAsset = null;  // To contract of Asset
+        let instanceAsset = null;    // To contract of Asset
+        let instanceOracle = null;   // To contract of Oracle
+
         let deployedNetwork = null;
         if (Counter.networks) {
           deployedNetwork = Counter.networks[networkId.toString()];
@@ -408,14 +432,24 @@ class App extends Component {
             console.log('=== instanceAsset ===', instanceAsset);
           }
         }
-        if (instance || instanceWallet || instanceList || instanceAsset) {
+        if (Oracle.networks) {
+          deployedNetwork = Oracle.networks[networkId.toString()];
+          if (deployedNetwork) {
+            instanceOracle = new web3.eth.Contract(
+              Oracle.abi,
+              deployedNetwork && deployedNetwork.address,
+            );
+            console.log('=== instanceOracle ===', instanceOracle);
+          }
+        }
+        if (instance || instanceWallet || instanceList || instanceAsset || instanceOracle) {
           // Set web3, accounts, and contract to the state, and then proceed with an
           // example of interacting with the contract's methods.
           this.setState({ web3, ganacheAccounts, accounts, balance, networkId, networkType, hotLoaderDisabled,
-            isMetaMask, contract: instance, wallet: instanceWallet, list: instanceList, asset: instanceAsset }, () => {
-              this.refreshValues(instance, instanceWallet, instanceList, instanceAsset);
+            isMetaMask, contract: instance, wallet: instanceWallet, list: instanceList, asset: instanceAsset, oracle: instanceOracle }, () => {
+              this.refreshValues(instance, instanceWallet, instanceList, instanceAsset, instanceOracle);
               setInterval(() => {
-                this.refreshValues(instance, instanceWallet, instanceList, instanceAsset);
+                this.refreshValues(instance, instanceWallet, instanceList, instanceAsset, instanceOracle);
               }, 5000);
             });
         }
@@ -457,7 +491,7 @@ class App extends Component {
     }
   }
 
-  refreshValues = (instance, instanceWallet, instanceList, instanceAsset) => {
+  refreshValues = (instance, instanceWallet, instanceList, instanceAsset, instanceOracle) => {
     if (instance) {
       this.getCount();
     }
@@ -469,6 +503,9 @@ class App extends Component {
     }
     if (instanceAsset) {
       console.log('refreshValues of instanceAsset');
+    }
+    if (instanceOracle) {
+      console.log('refreshValues of instanceOracle');
     }
   }
 
@@ -777,6 +814,13 @@ class App extends Component {
       )}
       {this.state.web3 && this.state.asset && (
         <div style={{ display: "inline-flex" }}>
+          <Card width={'420px'} bg="primary">
+            <p>Get data from Oracle</p>
+            <Button onClick={this.getOracleData}>Get data from Oracle</Button>
+          </Card>
+
+          <br />
+
           <Card width={'200px'} bg="primary">
             <p style={{ fontSize: '10px'}}>Location / Address of Production</p>
             <input type="text" value={this.state.valueOfProductionAddress} onChange={this.handleInputProductionAddress} />
